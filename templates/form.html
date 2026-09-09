@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{#
+  Раздел с формой. Все тексты — подписи полей, кнопка, сообщение об ошибке
+  и подтверждение — приходят из фронтматтера раздела, не отсюда.
+
+  Отправка и есть основное действие экрана, поэтому кнопки-ссылки на этой
+  странице нет: её гасит render_page.
+#}
+{% block content %}
+<article>
+  <h1 class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ page.title }}</h1>
+  <div class="prose mt-7">{{ page.html|safe }}</div>
+</article>
+
+{%- if sent %}
+<p class="mt-12 border-l border-accent pl-4 font-serif text-[1.0625rem] leading-relaxed text-ink" role="status">{{ page.form.sent }}</p>
+{%- else %}
+<form method="post" action="{{ post_url }}" class="mt-12" novalidate>
+  {%- if error %}
+  <p class="mb-8 border-l border-accent pl-4 text-sm text-ink" role="alert">{{ page.form.error }}</p>
+  {%- endif %}
+
+  {%- for field in page.form.fields %}
+  <p class="mt-6 first:mt-0">
+    <label for="field-{{ field.name }}" class="block text-sm text-ink-2">{{ field.label }}</label>
+    {%- if field.type == "textarea" %}
+    <textarea id="field-{{ field.name }}" name="{{ field.name }}" rows="4" required
+              class="field mt-2">{{ values.get(field.name, "") }}</textarea>
+    {%- else %}
+    <input id="field-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" required
+           value="{{ values.get(field.name, '') }}" class="field mt-2">
+    {%- endif %}
+  </p>
+  {%- endfor %}
+
+  {#- Ловушка для ботов: человек этого поля не видит и не заполняет. #}
+  <div hidden aria-hidden="true">
+    <input type="text" name="website" tabindex="-1" autocomplete="off">
+  </div>
+
+  <p class="mt-9">
+    <button type="submit" class="action">{{ page.form.submit }}</button>
+  </p>
+</form>
+{%- endif %}
+{% endblock %}

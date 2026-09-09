@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{#
+  Одна работа: пять частей в фиксированном порядке.
+  Порядок задан в app/content.py и проверяется при чтении файла —
+  шаблон идёт по work.parts, подписи берёт из самого файла.
+
+  Внизу — одно основное действие (контакт). Возврат к списку рядом с ним
+  намеренно сделан тихой ссылкой, а не второй кнопкой.
+#}
+{% block content %}
+<article lang="{{ work.lang }}">
+  <h1 class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ work.title }}</h1>
+
+  {%- for part in work.parts %}
+  <section id="{{ part.key }}"
+           class="mt-10 border-t pt-6 {% if part.key == 'failed' %}border-accent{% else %}border-line{% endif %}">
+    <h2 class="text-xs font-semibold uppercase tracking-[0.09em] text-ink-2">{{ part.heading }}</h2>
+    <div class="prose mt-4">{{ part.html|safe }}</div>
+  </section>
+  {%- endfor %}
+</article>
+
+{%- if action %}
+<p class="mt-14">
+  <a href="{{ action.url }}" class="action">{{ action.label }}</a>
+</p>
+{%- endif %}
+
+<p class="mt-6 text-sm">
+  <a href="{{ back.url }}" class="text-ink-2 no-underline hover:text-ink">{{ back.title }}</a>
+</p>
+{% endblock %}
