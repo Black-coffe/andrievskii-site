@@ -124,7 +124,7 @@ def render_page(
         context["action"] = None
         context["works"] = [
             {"work": work, "url": work_url(lang, work.slug)}
-            for work in content.list_works()
+            for work in content.list_works(lang)
         ]
         return templates.TemplateResponse(request, "works.html", context)
 
@@ -137,7 +137,7 @@ def render_work(request: Request, lang: str, slug: str) -> Response:
     Действие и подпись возврата берутся из раздела «Работы» — текста
     в шаблоне нет, и действие у экрана остаётся одно.
     """
-    work = content.load_work(slug)
+    work = content.load_work(slug, lang)
     works_index = content.load_page(lang, "works")
 
     return templates.TemplateResponse(

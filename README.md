@@ -33,7 +33,7 @@ bin\tailwindcss-windows-x64.exe -i static/css/input.css -o static/css/site.css -
 | `app/content.py` | чтение markdown, фронтматтер, проверка схемы работы |
 | `templates/` | Jinja2: `base.html` и по шаблону на тип страницы |
 | `content/ru\|uk\|en/` | тексты разделов |
-| `content/works/` | по одному файлу на работу |
+| `content/works/{lang}/` | по одному файлу на работу, ru — базовый язык |
 | `static/css/input.css` | исходный CSS: `@theme` с цветами и шрифтами |
 | `static/css/site.css` | собранный Tailwind, в репозитории |
 | `static/fonts/` | Golos Text, Literata, JetBrains Mono — woff2, локально |

@@ -1,5 +1,5 @@
 ---
-title: "Первый экран"
+title: "Перший екран"
 slug: "index"
 lang: "uk"
 action: "Розповісти задачу"

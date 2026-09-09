@@ -18,9 +18,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CONTENT_DIR = BASE_DIR / "content"
 WORKS_DIR = CONTENT_DIR / "works"
 
-# Работы пока существуют только на русском: content/works/ — плоский каталог,
-# один файл на работу. Переводы, когда появятся, лягут отдельным слоем.
-WORKS_LANG = "ru"
+# Работы разложены по языкам так же, как разделы: content/works/{lang}/{slug}.md.
+# Перевода нет — отдаётся русский файл, и страница честно помечается lang="ru".
+WORKS_BASE_LANG = "ru"
 
 # Расширения python-markdown. smarty не включаем: он переделывает кавычки
 # на английский манер, а в текстах — «ёлочки».
@@ -40,14 +40,16 @@ FRONTMATTER = re.compile(r"\A---\s*?\n(.*?)\n---\s*?\n?(.*)\Z", re.DOTALL)
 SECTION_HEADING = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 
 # Схема работы: пять частей, всегда в этом порядке. Ключ — для шаблона,
-# заголовок — то, что должно стоять в файле. Подпись на странице берётся
-# из файла, а не отсюда: в шаблоне текста нет.
+# дальше заголовок на каждом языке — то, что должно стоять в файле. Подпись
+# на странице берётся из самого файла, а не отсюда: в шаблоне текста нет.
+# Файл на своём языке пишется своими заголовками: русские в украинском файле
+# схему не пройдут.
 WORK_SECTIONS = (
-    ("task", "Задача"),
-    ("before", "Что было до"),
-    ("how", "Как устроено"),
-    ("result", "Что получилось"),
-    ("failed", "Что не получилось"),
+    ("task", {"ru": "Задача", "uk": "Завдання"}),
+    ("before", {"ru": "Что было до", "uk": "Що було до"}),
+    ("how", {"ru": "Как устроено", "uk": "Як влаштовано"}),
+    ("result", {"ru": "Что получилось", "uk": "Що вийшло"}),
+    ("failed", {"ru": "Что не получилось", "uk": "Що не вийшло"}),
 )
 
 # Ключи, которые обязаны быть во фронтматтере работы. Значение может быть
@@ -159,13 +161,17 @@ def load_page(lang: str, name: str) -> Page:
     )
 
 
-def load_work(slug: str) -> Work:
-    """Одна работа: content/works/{slug}.md.
+def load_work(slug: str, lang: str) -> Work:
+    """Одна работа: content/works/{lang}/{slug}.md.
 
-    Нарушение схемы — WorkSchemaError, а не страница без части.
+    Перевода на этот язык нет — отдаётся русский файл. Нарушение схемы —
+    WorkSchemaError, а не страница без части.
     """
     slug = _safe(slug)
-    path = WORKS_DIR / f"{slug}.md"
+    path = WORKS_DIR / _safe(lang) / f"{slug}.md"
+    if not path.is_file():
+        lang = WORKS_BASE_LANG
+        path = WORKS_DIR / lang / f"{slug}.md"
     meta, body = _read(path)
 
     _check_fields(path, meta)
@@ -182,25 +188,28 @@ def load_work(slug: str) -> Work:
         )
 
     return Work(
-        lang=WORKS_LANG,
+        lang=lang,
         slug=slug,
         title=str(meta["title"]).strip(),
         client_type=str(meta.get("client_type") or "").strip(),
         period=str(meta.get("period") or "").strip(),
         stack=tuple(str(item).strip() for item in (meta.get("stack") or [])),
         summary=str(meta["summary"]).strip(),
-        parts=_split_sections(path, body),
+        parts=_split_sections(path, body, lang),
         path=path,
     )
 
 
-def list_works() -> list[Work]:
+def list_works(lang: str) -> list[Work]:
     """Все работы для списка, по алфавиту имён файлов.
 
-    Одна работа со сломанной схемой роняет весь список — это и есть
-    «страница не собирается».
+    Набор работ задаёт русский каталог: перевода может не быть, а работа
+    в списке быть должна. Одна работа со сломанной схемой роняет весь
+    список — это и есть «страница не собирается».
     """
-    return [load_work(path.stem) for path in sorted(WORKS_DIR.glob("*.md"))]
+    slugs = {path.stem for path in (WORKS_DIR / WORKS_BASE_LANG).glob("*.md")}
+    slugs |= {path.stem for path in (WORKS_DIR / _safe(lang)).glob("*.md")}
+    return [load_work(slug, lang) for slug in sorted(slugs)]
 
 
 def _read_form(path: Path, raw: object) -> Form | None:
@@ -312,13 +321,20 @@ def _check_fields(path: Path, meta: dict) -> None:
         )
 
 
-def _split_sections(path: Path, body: str) -> tuple[WorkPart, ...]:
+def _headings(lang: str) -> list[str]:
+    """Заголовки пяти частей на языке файла."""
+    return [
+        names.get(lang, names[WORKS_BASE_LANG]) for _, names in WORK_SECTIONS
+    ]
+
+
+def _split_sections(path: Path, body: str, lang: str) -> tuple[WorkPart, ...]:
     """Режет тело на пять частей и проверяет, что все они на месте.
 
     Часть отсутствует, названа иначе или стоит не в том порядке — ошибка.
     Молча пропустить часть нельзя: «Что не получилось» — обязательная.
     """
-    expected = [heading for _, heading in WORK_SECTIONS]
+    expected = _headings(lang)
     matches = list(SECTION_HEADING.finditer(body))
     found = [match.group(1).strip() for match in matches]
     normalized = [_normalize(heading) for heading in found]
