@@ -17,7 +17,10 @@
 <ul class="mt-14 border-t border-line">
   {%- for item in works %}
   <li class="border-b border-line">
-    <a href="{{ item.url }}" class="group block py-7 no-underline" lang="{{ item.work.lang }}">
+    {#- Работы без перевода карточка показывает по-русски и ведёт сразу
+        на русский адрес: язык текста стоит в lang, язык страницы — в hreflang. #}
+    <a href="{{ item.url }}" class="group block py-7 no-underline" lang="{{ item.work.lang }}"
+       {%- if item.foreign %} hreflang="{{ item.work.lang }}"{% endif %}>
       <h2 class="text-xl font-semibold tracking-tight text-ink group-hover:text-accent">{{ item.work.title }}</h2>
       <p class="mt-2 font-serif text-[1.0625rem] leading-relaxed text-ink-2 text-pretty">{{ item.work.summary }}</p>
       {%- if item.work.period %}

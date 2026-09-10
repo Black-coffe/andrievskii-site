@@ -1,5 +1,5 @@
 ---
-title: "Материалы"
+title: "Materials"
 slug: "materials"
 lang: "en"
 description: "Checklists, templates, a repository — everything published alongside the videos"

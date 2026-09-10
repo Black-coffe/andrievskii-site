@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {#
-  Раздел с формой. Все тексты — подписи полей, кнопка, сообщение об ошибке
-  и подтверждение — приходят из фронтматтера раздела, не отсюда.
+  Раздел с формой. Все тексты — подписи полей, кнопка и сообщения — приходят
+  из фронтматтера раздела, не отсюда. Подтверждения на этой странице нет:
+  после отправки человек уходит на отдельный адрес «спасибо».
 
-  Отправка и есть основное действие экрана, поэтому кнопки-ссылки на этой
-  странице нет: её гасит render_page.
+  Отправка и есть основное действие экрана, поэтому кнопки-ссылки здесь
+  не бывает: её гасит render_page. Ссылки под формой — тихие, текстом.
 #}
 {% block content %}
 <article>
@@ -13,12 +14,9 @@
   <div class="prose mt-7">{{ page.html|safe }}</div>
 </article>
 
-{%- if sent %}
-<p class="mt-12 border-l border-accent pl-4 font-serif text-[1.0625rem] leading-relaxed text-ink" role="status">{{ page.form.sent }}</p>
-{%- else %}
 <form method="post" action="{{ post_url }}" class="mt-12" novalidate>
-  {%- if error %}
-  <p class="mb-8 border-l border-accent pl-4 text-sm text-ink" role="alert">{{ page.form.error }}</p>
+  {%- if message %}
+  <p class="mb-8 border-l border-accent pl-4 text-sm text-ink" role="alert">{{ message }}</p>
   {%- endif %}
 
   {%- for field in page.form.fields %}
@@ -36,12 +34,24 @@
 
   {#- Ловушка для ботов: человек этого поля не видит и не заполняет. #}
   <div hidden aria-hidden="true">
-    <input type="text" name="website" tabindex="-1" autocomplete="off">
+    <input type="text" name="{{ honeypot }}" tabindex="-1" autocomplete="off">
   </div>
+
+  {#- Время показа формы, подписанное на сервере: подделать метку нельзя,
+      а отправленную быстрее трёх секунд заполнял не человек. #}
+  <input type="hidden" name="{{ stamp_name }}" value="{{ stamp }}">
 
   <p class="mt-9">
     <button type="submit" class="action">{{ page.form.submit }}</button>
   </p>
 </form>
+
+{%- if page.links %}
+{#- Почта и канал: подпись ссылки — сам адрес, переводить в ней нечего. #}
+<ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+  {%- for link in page.links %}
+  <li><a href="{{ link.href }}" class="text-ink-2 no-underline hover:text-ink">{{ link.label }}</a></li>
+  {%- endfor %}
+</ul>
 {%- endif %}
 {% endblock %}

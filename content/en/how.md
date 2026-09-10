@@ -1,5 +1,5 @@
 ---
-title: "Как я работаю"
+title: "How I Work"
 slug: "how"
 lang: "en"
 action: "Describe your task"

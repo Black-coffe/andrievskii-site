@@ -15,8 +15,13 @@ form:
       label: "Як зв’язатися"
       type: "text"
   submit: "Надіслати"
-  sent: "Задачу отримано. Відповім на вказаний контакт."
   error: "Заповніть усі три поля — без них немає куди відповісти."
+  retry: "Надішліть ще раз — текст збережено."
+links:
+  - label: "andrei@andrievskii.site"
+    href: "mailto:andrei@andrievskii.site"
+  - label: "t.me/andrievskii_ai"
+    href: "https://t.me/andrievskii_ai"
 
 ---
 

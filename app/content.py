@@ -18,9 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CONTENT_DIR = BASE_DIR / "content"
 WORKS_DIR = CONTENT_DIR / "works"
 
-# Работы разложены по языкам так же, как разделы: content/works/{lang}/{slug}.md.
-# Перевода нет — отдаётся русский файл, и страница честно помечается lang="ru".
-WORKS_BASE_LANG = "ru"
+# Базовый язык сайта. Перевода нет — отдаётся он, и страница честно
+# помечается его lang. Работы разложены по языкам так же, как разделы:
+# content/works/{lang}/{slug}.md.
+BASE_LANG = "ru"
 
 # Расширения python-markdown. smarty не включаем: он переделывает кавычки
 # на английский манер, а в текстах — «ёлочки».
@@ -45,11 +46,11 @@ SECTION_HEADING = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 # Файл на своём языке пишется своими заголовками: русские в украинском файле
 # схему не пройдут.
 WORK_SECTIONS = (
-    ("task", {"ru": "Задача", "uk": "Завдання"}),
-    ("before", {"ru": "Что было до", "uk": "Що було до"}),
-    ("how", {"ru": "Как устроено", "uk": "Як влаштовано"}),
-    ("result", {"ru": "Что получилось", "uk": "Що вийшло"}),
-    ("failed", {"ru": "Что не получилось", "uk": "Що не вийшло"}),
+    ("task", {"ru": "Задача", "uk": "Завдання", "en": "Task"}),
+    ("before", {"ru": "Что было до", "uk": "Що було до", "en": "What came before"}),
+    ("how", {"ru": "Как устроено", "uk": "Як влаштовано", "en": "How it's built"}),
+    ("result", {"ru": "Что получилось", "uk": "Що вийшло", "en": "What worked"}),
+    ("failed", {"ru": "Что не получилось", "uk": "Що не вийшло", "en": "What didn't work"}),
 )
 
 # Ключи, которые обязаны быть во фронтматтере работы. Значение может быть
@@ -89,12 +90,24 @@ class FormField:
 
 @dataclass(frozen=True)
 class Form:
-    """Форма раздела: поля и все её тексты."""
+    """Форма раздела: поля и все её тексты.
+
+    Подтверждения здесь нет: после отправки человек уходит на отдельную
+    страницу «спасибо», и её текст живёт в её собственном файле.
+    """
 
     fields: tuple[FormField, ...]
     submit: str
-    sent: str
     error: str
+    retry: str
+
+
+@dataclass(frozen=True)
+class Link:
+    """Тихая ссылка рядом с формой: почта, канал. Подпись — она же адрес."""
+
+    label: str
+    href: str
 
 
 @dataclass(frozen=True)
@@ -113,6 +126,7 @@ class Page:
     action: str
     action_to: str
     form: Form | None
+    links: tuple[Link, ...]
     html: str
     path: Path
 
@@ -156,6 +170,7 @@ def load_page(lang: str, name: str) -> Page:
         action=str(meta.get("action") or "").strip(),
         action_to=str(meta.get("action_to") or "").strip(),
         form=_read_form(path, meta.get("form")),
+        links=_read_links(path, meta.get("links")),
         html=_to_html(body),
         path=path,
     )
@@ -170,7 +185,7 @@ def load_work(slug: str, lang: str) -> Work:
     slug = _safe(slug)
     path = WORKS_DIR / _safe(lang) / f"{slug}.md"
     if not path.is_file():
-        lang = WORKS_BASE_LANG
+        lang = BASE_LANG
         path = WORKS_DIR / lang / f"{slug}.md"
     meta, body = _read(path)
 
@@ -207,9 +222,23 @@ def list_works(lang: str) -> list[Work]:
     в списке быть должна. Одна работа со сломанной схемой роняет весь
     список — это и есть «страница не собирается».
     """
-    slugs = {path.stem for path in (WORKS_DIR / WORKS_BASE_LANG).glob("*.md")}
+    slugs = {path.stem for path in (WORKS_DIR / BASE_LANG).glob("*.md")}
     slugs |= {path.stem for path in (WORKS_DIR / _safe(lang)).glob("*.md")}
     return [load_work(slug, lang) for slug in sorted(slugs)]
+
+
+def has_page(lang: str, name: str) -> bool:
+    """Есть ли раздел на этом языке.
+
+    Перевода нет — нет и файла: набор языковых версий раздела задаётся
+    содержимым content/, а не списком в коде.
+    """
+    return (CONTENT_DIR / _safe(lang) / f"{_safe(name)}.md").is_file()
+
+
+def has_work(lang: str, slug: str) -> bool:
+    """Есть ли работа на этом языке. То же правило, что и у разделов."""
+    return (WORKS_DIR / _safe(lang) / f"{_safe(slug)}.md").is_file()
 
 
 def _read_form(path: Path, raw: object) -> Form | None:
@@ -223,7 +252,7 @@ def _read_form(path: Path, raw: object) -> Form | None:
     if not isinstance(raw, dict):
         raise SchemaError(_where(path) + ": form должен быть блоком с полями")
 
-    missing = [key for key in ("fields", "submit", "sent", "error") if not raw.get(key)]
+    missing = [key for key in ("fields", "submit", "error", "retry") if not raw.get(key)]
     if missing:
         raise SchemaError(_where(path) + ": в form нет: " + ", ".join(missing))
 
@@ -253,9 +282,36 @@ def _read_form(path: Path, raw: object) -> Form | None:
     return Form(
         fields=tuple(fields),
         submit=str(raw["submit"]).strip(),
-        sent=str(raw["sent"]).strip(),
         error=str(raw["error"]).strip(),
+        retry=str(raw["retry"]).strip(),
     )
+
+
+def _read_links(path: Path, raw: object) -> tuple[Link, ...]:
+    """Разбирает блок links. Нет блока — нет и ссылок.
+
+    Подпись ссылки — это сам адрес (почта, адрес канала), поэтому
+    переводить в ней нечего и во всех языках блок одинаковый.
+    """
+    if raw is None:
+        return ()
+    if not isinstance(raw, list):
+        raise SchemaError(_where(path) + ": links должен быть списком")
+
+    links = []
+    for index, item in enumerate(raw, start=1):
+        if not isinstance(item, dict) or not item.get("label") or not item.get("href"):
+            raise SchemaError(
+                _where(path) + f": у ссылки №{index} нет label или href"
+            )
+        href = str(item["href"]).strip()
+        if not href.startswith(("mailto:", "https://", "http://", "/")):
+            raise SchemaError(
+                _where(path)
+                + f": адрес ссылки «{href}» непонятен. Допустимы mailto:, https://, http:// и адрес внутри сайта"
+            )
+        links.append(Link(label=str(item["label"]).strip(), href=href))
+    return tuple(links)
 
 
 def _safe(name: str) -> str:
@@ -324,7 +380,7 @@ def _check_fields(path: Path, meta: dict) -> None:
 def _headings(lang: str) -> list[str]:
     """Заголовки пяти частей на языке файла."""
     return [
-        names.get(lang, names[WORKS_BASE_LANG]) for _, names in WORK_SECTIONS
+        names.get(lang, names[BASE_LANG]) for _, names in WORK_SECTIONS
     ]
 
 

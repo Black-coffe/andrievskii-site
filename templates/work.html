@@ -28,6 +28,7 @@
 {%- endif %}
 
 <p class="mt-6 text-sm">
-  <a href="{{ back.url }}" class="text-ink-2 no-underline hover:text-ink">{{ back.title }}</a>
+  <a href="{{ back.url }}" class="text-ink-2 no-underline hover:text-ink"
+     {%- if back.foreign %} lang="{{ back.lang }}" hreflang="{{ back.lang }}"{% endif %}>{{ back.title }}</a>
 </p>
 {% endblock %}

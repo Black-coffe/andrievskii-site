@@ -7,6 +7,16 @@
   {%- if head.description %}
   <meta name="description" content="{{ head.description }}">
   {%- endif %}
+  {#- Языковые версии этой самой страницы, а не сайта вообще: адреса
+      абсолютные, каждая версия названа, включая текущую. Раздела нет
+      на языке — строки на него здесь и не будет.
+      x-default — версия для того, чей язык не совпал ни с одним. #}
+  {%- for item in alternates.links %}
+  <link rel="alternate" hreflang="{{ item.lang }}" href="{{ item.url }}">
+  {%- endfor %}
+  {%- if alternates.default %}
+  <link rel="alternate" hreflang="x-default" href="{{ alternates.default }}">
+  {%- endif %}
   {#- Подмножество шрифта под язык страницы: кириллица на ru/uk, латиница на en. #}
   {%- set subset = "latin" if lang == "en" else "cyrillic" %}
   <link rel="preload" href="/static/fonts/golos-text-{{ subset }}.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,20 +30,31 @@
         <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-2 text-sm">
           {%- for item in nav %}
           <li>
+            {#- Пункт на чужом языке (раздел без перевода) помечен своим
+                языком: и браузеру, и скринридеру видно, куда он ведёт. #}
             <a href="{{ item.url }}"
                class="{% if item.current %}border-b border-accent pb-0.5 text-ink{% else %}text-ink-2 hover:text-ink{% endif %} no-underline"
+               {%- if item.foreign %} lang="{{ item.lang }}" hreflang="{{ item.lang }}"{% endif %}
                {%- if item.current %} aria-current="page"{% endif %}>{{ item.title }}</a>
           </li>
           {%- endfor %}
         </ul>
       </nav>
+      {#- Переключатель языка: обычные ссылки на ту же страницу, без JavaScript.
+          Версии на языке нет — остаётся тихая надпись без ссылки: вести
+          некуда, а на главную язык не сбрасываем. #}
       <nav>
         <ul class="flex items-baseline gap-x-3 text-xs tracking-wide">
           {%- for item in lang_links %}
           <li>
-            <a href="{{ item.url }}" hreflang="{{ item.lang }}"
-               class="{% if item.current %}text-ink{% else %}text-ink-2 hover:text-ink{% endif %} no-underline"
-               {%- if item.current %} aria-current="true"{% endif %}>{{ item.code }}</a>
+            {%- if item.current %}
+            <span class="text-ink" aria-current="true">{{ item.code }}</span>
+            {%- elif item.url %}
+            <a href="{{ item.url }}" hreflang="{{ item.lang }}" lang="{{ item.lang }}"
+               class="text-ink-2 hover:text-ink no-underline">{{ item.code }}</a>
+            {%- else %}
+            <span class="text-ink-3" aria-disabled="true">{{ item.code }}</span>
+            {%- endif %}
           </li>
           {%- endfor %}
         </ul>

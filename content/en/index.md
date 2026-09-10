@@ -1,5 +1,5 @@
 ---
-title: "Первый экран"
+title: "First Screen"
 slug: "index"
 lang: "en"
 action: "Describe your task"

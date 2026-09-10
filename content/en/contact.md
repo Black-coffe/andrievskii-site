@@ -1,5 +1,5 @@
 ---
-title: "Контакт"
+title: "Contact"
 slug: "contact"
 lang: "en"
 description: "A short form and email on my own domain"
@@ -15,8 +15,13 @@ form:
       label: "How to reach you"
       type: "text"
   submit: "Send"
-  sent: "Task received. I will reply to the contact you gave."
   error: "Fill in all three fields — there is nowhere to reply otherwise."
+  retry: "Send it again — your text is kept."
+links:
+  - label: "andrei@andrievskii.site"
+    href: "mailto:andrei@andrievskii.site"
+  - label: "t.me/andrievskii_ai"
+    href: "https://t.me/andrievskii_ai"
 
 ---
 
