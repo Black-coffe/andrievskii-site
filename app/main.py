@@ -145,25 +145,31 @@ def build_alternates(request: Request, versions: dict[str, str]) -> dict:
 def build_nav(lang: str, current: str) -> list[dict]:
     """Пункты меню.
 
-    Подписи берутся из title разделов — в шаблоне текста нет, правится всё
-    в content/{lang}/*.md. Раздела на этом языке нет («Архив» живёт только
-    по-русски) — пункт не исчезает, а ведёт на русскую версию и помечается
-    её языком: иначе раздел с украинской и английской страниц недостижим.
+    Подписи берутся из разделов — в шаблоне текста нет, правится всё
+    в content/{lang}/*.md: поле nav, а нет его — title. Раздела на этом
+    языке нет («Архив» живёт только по-русски) — пункт не исчезает, а ведёт
+    на русскую версию: иначе раздел с украинской и английской страниц
+    недостижим. Подпись при этом берётся на языке читателя, если русский
+    файл её объявил: «Архив» посреди английского меню — русское слово
+    в чужом языке, а не честная пометка.
     """
     items = []
     for page in PAGES:
         source = lang if content.has_page(lang, page) else BASE_LANG
         try:
-            title = content.load_page(source, page).title
+            doc = content.load_page(source, page)
         except ContentNotFound:
             continue
+        label_lang = lang if lang in doc.nav else source
         items.append(
             {
                 "page": page,
-                "title": title,
+                "title": doc.nav.get(label_lang) or doc.title,
                 "url": page_url(source, page),
                 "lang": source,
+                "label_lang": label_lang,
                 "foreign": source != lang,
+                "label_foreign": label_lang != lang,
                 "current": page == current,
             }
         )

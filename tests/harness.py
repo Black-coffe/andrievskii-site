@@ -146,6 +146,25 @@ def alternates(html: str) -> dict[str, str]:
     return dict(re.findall(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">', head))
 
 
+def menu(html: str) -> list[dict[str, str]]:
+    """Пункты меню: подпись, адрес и языковые пометки ссылки."""
+    block = html.split("</header>")[0].split("<nav>")[1]
+    def attr(tag: str, name: str) -> str:
+        # \b перед lang не даёт поймать hreflang: между «f» и «l» границы слова нет.
+        match = re.search(r'\b' + name + r'="([^"]+)"', tag)
+        return match.group(1) if match else ""
+
+    return [
+        {
+            "label": label.strip(),
+            "url": attr(tag, "href"),
+            "hreflang": attr(tag, "hreflang"),
+            "lang": attr(tag, "lang"),
+        }
+        for tag, label in re.findall(r"(<a\b[^>]*>)([^<]+)</a>", block)
+    ]
+
+
 def switcher(html: str) -> dict[str, str]:
     """Переключатель языка: код языка → адрес, «—» если это не ссылка."""
     block = html.split("</header>")[0].split("<nav>")[2]

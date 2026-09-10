@@ -30,11 +30,13 @@
         <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-2 text-sm">
           {%- for item in nav %}
           <li>
-            {#- Пункт на чужом языке (раздел без перевода) помечен своим
-                языком: и браузеру, и скринридеру видно, куда он ведёт. #}
+            {#- Раздел без перевода: hreflang говорит, на каком языке страница
+                по ту сторону ссылки. lang ставится только когда и сама подпись
+                чужая — переведённое слово своим языком помечать нельзя. #}
             <a href="{{ item.url }}"
                class="{% if item.current %}border-b border-accent pb-0.5 text-ink{% else %}text-ink-2 hover:text-ink{% endif %} no-underline"
-               {%- if item.foreign %} lang="{{ item.lang }}" hreflang="{{ item.lang }}"{% endif %}
+               {%- if item.foreign %} hreflang="{{ item.lang }}"{% endif %}
+               {%- if item.label_foreign %} lang="{{ item.label_lang }}"{% endif %}
                {%- if item.current %} aria-current="page"{% endif %}>{{ item.title }}</a>
           </li>
           {%- endfor %}

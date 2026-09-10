@@ -1,5 +1,6 @@
 ---
-title: "First Screen"
+title: "I take processes apart and digitize them: from a single service to an entire business"
+nav: "Home"
 slug: "index"
 lang: "en"
 action: "Describe your task"

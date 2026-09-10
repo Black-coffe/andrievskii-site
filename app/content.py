@@ -116,11 +116,16 @@ class Page:
 
     action и action_to — основное действие экрана. Поле одно, а не список:
     двух равнозначных призывов на странице не появится по устройству.
+
+    nav — подпись в меню по языкам. Заголовок страницы и пункт меню это
+    разные тексты: h1 говорит, с чем приходить, а в меню нужно короткое
+    слово. Не объявлен nav — в меню идёт title.
     """
 
     lang: str
     slug: str
     title: str
+    nav: dict[str, str]
     description: str
     updated: str | None
     action: str
@@ -161,10 +166,13 @@ def load_page(lang: str, name: str) -> Page:
     meta, body = _read(path)
 
     updated = meta.get("updated")
+    page_lang = str(meta.get("lang") or lang)
+    title = str(meta.get("title") or "")
     return Page(
-        lang=str(meta.get("lang") or lang),
+        lang=page_lang,
         slug=str(meta.get("slug") or name),
-        title=str(meta.get("title") or ""),
+        title=title,
+        nav=_read_nav(path, meta.get("nav"), page_lang, title),
         description=str(meta.get("description") or ""),
         updated=str(updated) if updated else None,
         action=str(meta.get("action") or "").strip(),
@@ -284,6 +292,42 @@ def _read_form(path: Path, raw: object) -> Form | None:
         submit=str(raw["submit"]).strip(),
         error=str(raw["error"]).strip(),
         retry=str(raw["retry"]).strip(),
+    )
+
+
+def _read_nav(path: Path, raw: object, lang: str, title: str) -> dict[str, str]:
+    """Разбирает поле nav — подпись раздела в меню.
+
+    Три формы, от простой к редкой:
+
+      нет поля          — в меню идёт title, как было до появления nav;
+      nav: "Главная"    — своя короткая подпись на языке файла;
+      nav: {ru: …, uk: …, en: …} — подписи на нескольких языках.
+
+    Последняя нужна разделам, которые существуют только по-русски: «Архив»
+    стоит в украинском и английском меню, ведёт на русскую страницу, но
+    называться посреди чужого меню по-русски не должен.
+    """
+    if raw is None:
+        return {lang: title}
+    if isinstance(raw, str):
+        label = raw.strip()
+        if not label:
+            raise SchemaError(_where(path) + ": nav пустой. Убери поле или напиши подпись")
+        return {lang: label}
+    if isinstance(raw, dict):
+        labels = {str(key).strip(): str(value).strip() for key, value in raw.items()}
+        if not all(labels.keys()) or not all(labels.values()):
+            raise SchemaError(_where(path) + ": в nav есть язык без подписи или подпись без языка")
+        if lang not in labels:
+            raise SchemaError(
+                _where(path)
+                + f": в nav нет подписи на языке самого файла ({lang}). Есть: "
+                + ", ".join(sorted(labels))
+            )
+        return labels
+    raise SchemaError(
+        _where(path) + ": nav должен быть строкой или списком подписей по языкам"
     )
 
 

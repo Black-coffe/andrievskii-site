@@ -14,9 +14,10 @@ import time
 from pathlib import Path
 
 from app import content, leads
-from tests.harness import Server, alternates, page_lang, stamp_of, switcher
+from tests.harness import Server, alternates, menu, page_lang, stamp_of, switcher
 
 LANGS = ("ru", "uk", "en")
+BASE_LANG = content.BASE_LANG
 PAGES = ("index", "how", "works", "materials", "contact", "archive")
 PREFIX = {"ru": "", "uk": "/uk", "en": "/en"}
 
@@ -86,6 +87,98 @@ def check_schema_breaks(server: Server, result) -> None:
     result.check("несуществующая работа — 404", status == 404, f"код {status}")
     status, _, _ = server.get("/uk/net-takogo-razdela")
     result.check("несуществующий раздел — 404", status == 404, f"код {status}")
+
+
+def check_menu(server: Server, result) -> None:
+    """Меню и заголовок главной.
+
+    Служебное имя раздела («Первый экран») однажды просочилось в заголовок
+    и в меню. Здесь проверяется, что заголовок главной говорит о деле,
+    подпись в меню — короткая и своя, а в чужом меню нет русских слов.
+    """
+    result.section("Меню и заголовок главной")
+
+    # Служебные слова, которых в подписях и заголовках быть не должно.
+    SERVICE = ("экран", "екран", "screen")
+    HOME = {"ru": "Главная", "uk": "Головна", "en": "Home"}
+    ARCHIVE = {"ru": "Архив", "uk": "Архів", "en": "Archive"}
+
+    for lang in LANGS:
+        status, _, page = server.get(url_of(lang, "index"))
+        result.check(f"{lang}: главная отдаётся", status == 200, f"код {status}")
+
+        h1 = re.search(r"<h1[^>]*>(.*?)</h1>", page, re.S).group(1).strip()
+        title = re.search(r"<title>(.*?)</title>", page, re.S).group(1).strip()
+        items = menu(page)
+        labels = [item["label"] for item in items]
+
+        result.check(f"{lang}: тег title повторяет h1", title == h1, f"{title!r} vs {h1!r}")
+        result.check(
+            f"{lang}: в h1 нет служебного имени раздела",
+            not any(word in h1.lower() for word in SERVICE),
+            h1,
+        )
+        result.check(
+            f"{lang}: в меню нет служебного имени раздела",
+            not any(word in " ".join(labels).lower() for word in SERVICE),
+            ", ".join(labels),
+        )
+        result.check(
+            f"{lang}: пункт главной называется «{HOME[lang]}»",
+            labels[:1] == [HOME[lang]],
+            ", ".join(labels[:1]),
+        )
+        result.check(
+            f"{lang}: подпись в меню короче заголовка страницы",
+            len(labels[0]) < len(h1),
+            f"{labels[0]!r} vs {h1!r}",
+        )
+        result.check(f"{lang}: в меню все шесть разделов", len(items) == len(PAGES), str(len(items)))
+
+        # «Архив» живёт только по-русски: подпись переводится, адрес — нет.
+        archive = next(item for item in items if item["url"] == "/archive")
+        result.check(
+            f"{lang}: «Архив» подписан на языке читателя",
+            archive["label"] == ARCHIVE[lang],
+            archive["label"],
+        )
+        if lang == BASE_LANG:
+            result.check("ru: у своего «Архива» языковых пометок нет",
+                         not archive["hreflang"] and not archive["lang"])
+        else:
+            result.check(
+                f"{lang}: «Архив» ведёт на русскую страницу и помечен hreflang",
+                archive["hreflang"] == BASE_LANG,
+                archive["hreflang"] or "пометки нет",
+            )
+            result.check(
+                f"{lang}: у переведённой подписи нет чужого lang",
+                not archive["lang"],
+                archive["lang"],
+            )
+
+    # Поле nav разбирается строго: молча принять кривой блок нельзя.
+    probe = Path(f"content/{BASE_LANG}/probe-nav.md")
+    broken = (
+        ('nav: 17\n', "nav числом"),
+        ('nav:\n  uk: "Проба"\n', "nav без языка самого файла"),
+        ('nav: "   "\n', "пустая подпись"),
+    )
+    try:
+        for block, what in broken:
+            probe.write_text(
+                '---\ntitle: "Проба"\nslug: "probe-nav"\n'
+                f'lang: "{BASE_LANG}"\ndescription: "Проба"\n{block}---\n\nтекст\n',
+                encoding="utf-8",
+            )
+            try:
+                content.load_page(BASE_LANG, "probe-nav")
+                ok, why = False, "принято молча"
+            except content.SchemaError as error:
+                ok, why = "probe-nav.md" in str(error), str(error)
+            result.check(f"{what} — SchemaError с именем файла", ok, why)
+    finally:
+        probe.unlink(missing_ok=True)
 
 
 def check_languages(server: Server, result) -> None:
@@ -419,6 +512,7 @@ def check_form_mismatch(server: Server, result) -> None:
 ALL = (
     check_content,
     check_schema_breaks,
+    check_menu,
     check_languages,
     check_form,
     check_telegram,
