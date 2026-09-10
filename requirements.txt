@@ -1,0 +1,14 @@
+# Что действительно импортируется в app/ и tests/. Версии — те, на которых
+# проект работает сейчас (Python 3.12).
+#
+#   python -m pip install -r requirements.txt
+
+fastapi==0.141.1          # приложение; тянет за собой starlette и pydantic
+uvicorn==0.52.4           # сервер: uvicorn app.main:app
+Jinja2==3.1.6             # шаблоны в templates/
+python-multipart==0.0.32  # разбор данных формы /contact
+Markdown==3.10.3          # тело файлов content/ в HTML
+PyYAML==6.0.3             # фронтматтер файлов content/
+
+# Телеграм и .env своих пакетов не требуют: сообщения уходят через
+# urllib из стандартной библиотеки, .env читает app/config.py.

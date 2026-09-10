@@ -25,6 +25,17 @@ bin\tailwindcss-windows-x64.exe -i static/css/input.css -o static/css/site.css -
 .venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
 
+Зависимости — в `requirements.txt`, ставятся
+`python -m pip install -r requirements.txt`. На сервере то же приложение
+поднимается без `--reload` и с явными адресом и портом:
+
+```
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Рабочая папка — корень репозитория: из неё видны `app/`, `content/`,
+`templates/`, `static/` и `.env`.
+
 ## Тесты
 
 ```
