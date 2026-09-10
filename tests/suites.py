@@ -270,6 +270,14 @@ def check_telegram(server: Server, result) -> None:
 
     logging.disable(logging.ERROR)  # ожидаемые ошибки не засоряют вывод теста
     os.environ["LEADS_DB"] = str(server.db)
+
+    # Настоящий .env тесту не положен: иначе «бот не настроен» превращается
+    # в живое сообщение в чужой телеграм. Уводим конфиг на несуществующий файл.
+    from app import config
+
+    was = (config.ENV_FILE, config._seen, config._ours)
+    config.ENV_FILE = Path(server.db).parent / "no-such.env"
+    config._seen, config._ours = 0.0, set()
     values = {"task": "проверка отказа", "deadline": "нет", "contact": "@check"}
     labels = {"task": "Задача", "deadline": "Срок", "contact": "Как связаться"}
     before = len(server.leads())
@@ -300,7 +308,94 @@ def check_telegram(server: Server, result) -> None:
         result.check("сообщение влезает в лимит", len(text) <= leads.TELEGRAM_LIMIT)
     finally:
         leads.TELEGRAM_API = api
+        config.ENV_FILE, config._seen, config._ours = was
         logging.disable(logging.NOTSET)
+
+
+def check_config(server: Server, result) -> None:
+    """Правка .env подхватывается без перезапуска процесса.
+
+    Ровно та поломка, из-за которой заявка однажды ушла в базу молча:
+    сервер подняли до того, как в .env появились ключи телеграма,
+    а `uvicorn --reload` следит за `.py` и правку файла не заметил.
+    """
+    result.section("Переменные окружения")
+
+    from app import config
+
+    was_file, was_seen, was_ours = config.ENV_FILE, config._seen, config._ours
+    probes = ("PROBE_TOKEN", "PROBE_CHAT", "PROBE_OUTER")
+    keep = {name: os.environ.get(name) for name in probes}
+    try:
+        env = Path(server.db).parent / "probe.env"
+        config.ENV_FILE, config._seen, config._ours = env, 0.0, set()
+        for name in probes:
+            os.environ.pop(name, None)
+
+        # Процесс уже работает, файла ещё нет.
+        result.check("переменной нет — пусто, без падения", config.get("PROBE_TOKEN") == "")
+
+        env.write_text(
+            'PROBE_TOKEN="111:secret"\n# комментарий\nPROBE_CHAT = 42\n', encoding="utf-8"
+        )
+        result.check("файл появился — значение читается", config.get("PROBE_TOKEN") == "111:secret")
+        result.check("кавычки и пробелы сняты", config.get("PROBE_CHAT") == "42")
+        result.check("комментарий переменной не стал", "# комментарий" not in os.environ)
+
+        # Значение поправили — процесс тот же, перезапуска не было.
+        time.sleep(0.02)
+        env.write_text("PROBE_TOKEN=222:fixed\nPROBE_CHAT=42\n", encoding="utf-8")
+        result.check(
+            "правка файла видна без перезапуска",
+            config.get("PROBE_TOKEN") == "222:fixed",
+            config.get("PROBE_TOKEN"),
+        )
+
+        # Настоящее окружение сильнее файла.
+        os.environ["PROBE_OUTER"] = "из окружения"
+        env.write_text("PROBE_OUTER=из файла\n", encoding="utf-8")
+        config.load(force=True)
+        result.check(
+            "заданное снаружи файл не перебивает", os.environ["PROBE_OUTER"] == "из окружения"
+        )
+    finally:
+        config.ENV_FILE, config._seen, config._ours = was_file, was_seen, was_ours
+        for name, value in keep.items():
+            os.environ.pop(name, None)
+            if value is not None:
+                os.environ[name] = value
+
+    result.check(
+        "состояние телеграма спрашивается у кода, а не по факту молчания",
+        isinstance(leads.configured(), bool),
+    )
+
+
+def check_files_clean(server: Server, result) -> None:
+    """В файлах проекта нет управляющих символов.
+
+    Появляются они не от руки, а от генерации: сорвалось экранирование —
+    и в тексте вместо обратного слеша оказался звонок или возврат каретки.
+    Глазами такое не видно, страница или README при этом врут.
+    """
+    result.section("Файлы без мусорных символов")
+
+    allowed = {9, 10, 13}  # табуляция и перевод строки
+    watched = ("*.py", "*.md", "*.html", "*.css")
+    dirty = []
+    for pattern in watched:
+        for path in Path(".").rglob(pattern):
+            parts = set(path.parts)
+            if parts & {".venv", ".git", "__pycache__", ".claude", "node_modules"}:
+                continue
+            text = path.read_text(encoding="utf-8", errors="replace")
+            bad = {ord(ch) for ch in text if ord(ch) < 32 and ord(ch) not in allowed}
+            if bad:
+                dirty.append(f"{path}: {sorted(bad)}")
+            if chr(13) in text.replace(chr(13) + chr(10), ""):
+                dirty.append(f"{path}: возврат каретки внутри строки")
+
+    result.check("управляющих символов в файлах нет", not dirty, "; ".join(dirty[:5]))
 
 
 def check_form_mismatch(server: Server, result) -> None:
@@ -327,5 +422,7 @@ ALL = (
     check_languages,
     check_form,
     check_telegram,
+    check_config,
+    check_files_clean,
     check_form_mismatch,
 )

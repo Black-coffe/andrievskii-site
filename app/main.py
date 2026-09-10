@@ -9,7 +9,6 @@ from __future__ import annotations
 import hashlib
 import hmac
 import logging
-import os
 import secrets
 import time
 from pathlib import Path
@@ -21,17 +20,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.background import BackgroundTask
 
-from app import content, leads
+from app import config, content, leads
 from app.content import ContentNotFound, SchemaError
 
-try:
-    # Токен бота и chat_id лежат в .env, который в репозиторий не входит.
-    # Пакета нет — работаем на голом окружении, os.environ читается так же.
-    from dotenv import load_dotenv
-
-    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-except ImportError:  # pragma: no cover
-    pass
+# Токен бота и chat_id лежат в .env, который в репозиторий не входит.
+config.load()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,7 +46,7 @@ BASE_LANG = content.BASE_LANG
 # rel="alternate" адресов без домена не понимает, поэтому адреса там
 # абсолютные. Домен берётся из окружения, а если его там нет — из самого
 # запроса: на localhost ссылки тогда тоже рабочие.
-SITE_ORIGIN = os.environ.get("SITE_ORIGIN", "").rstrip("/")
+SITE_ORIGIN = config.get("SITE_ORIGIN").rstrip("/")
 
 # Разделы из BRIEF.md. Порядок — порядок пунктов в навигации.
 PAGES = ("index", "how", "works", "materials", "contact", "archive")
@@ -76,7 +69,7 @@ STAMP = "at"
 # Секрет для подписи метки. Не задан — случайный на время работы процесса:
 # подделать метку всё равно нельзя, но форма, открытая до перезапуска,
 # попросит отправить ещё раз.
-FORM_SECRET = os.environ.get("FORM_SECRET", "").encode() or secrets.token_bytes(32)
+FORM_SECRET = config.get("FORM_SECRET").encode() or secrets.token_bytes(32)
 
 # Быстрее трёх секунд три поля заполняет только робот.
 MIN_AGE = 3
@@ -456,6 +449,13 @@ def register_routes() -> None:
 
 
 register_routes()
+
+# Видно сразу при старте, а не в тот момент, когда заявка не пришла.
+log.info("заявки: %s", leads.db_path())
+log.info(
+    "телеграм: %s",
+    "настроен" if leads.configured() else "НЕ настроен — заявки будут только в базе",
+)
 
 
 @app.exception_handler(ContentNotFound)

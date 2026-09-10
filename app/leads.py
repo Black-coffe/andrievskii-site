@@ -11,13 +11,14 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 import sqlite3
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+
+from app import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_DB = BASE_DIR / "data" / "site.db"
@@ -64,7 +65,7 @@ def db_path() -> Path:
     Путь берётся в момент обращения, а не при импорте: .env читается
     при старте приложения, то есть уже после того, как модуль загружен.
     """
-    return Path(os.environ.get("LEADS_DB") or DEFAULT_DB)
+    return Path(config.get("LEADS_DB") or DEFAULT_DB)
 
 
 class FormMismatch(Exception):
@@ -138,6 +139,20 @@ def save(values: dict[str, str], lang: str, referrer: str) -> Lead:
     )
 
 
+def credentials() -> tuple[str, str]:
+    """Токен бота и чат. Только из окружения — в коде их нет.
+
+    config.get перечитывает .env, если переменных в окружении не оказалось:
+    процесс, поднятый до правки файла, не остаётся молча без телеграма.
+    """
+    return config.get("TELEGRAM_BOT_TOKEN"), config.get("TELEGRAM_CHAT_ID")
+
+
+def configured() -> bool:
+    """Есть ли кому и куда отправлять. Пишется в лог при старте."""
+    return all(credentials())
+
+
 def notify(lead: Lead, labels: dict[str, str]) -> bool:
     """Отправляет заявку в телеграм. Возвращает, ушло ли.
 
@@ -145,8 +160,7 @@ def notify(lead: Lead, labels: dict[str, str]) -> bool:
     уже ответили. Всё, что может пойти не так, пишется в лог — и «бот
     не настроен», и «сеть не ответила», и «телеграм отказал».
     """
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    token, chat_id = credentials()
     if not token or not chat_id:
         log.warning(
             "заявка №%s: телеграм не настроен (нет TELEGRAM_BOT_TOKEN или "
