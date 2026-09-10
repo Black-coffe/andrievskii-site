@@ -25,12 +25,10 @@ links:
 
 ---
 
-A short form: task, deadline, contact. Three fields — every extra field cuts the number of replies.
-
 Write if you have a process that needs to be taken apart and digitized: from a single service to an entire business.
 
 Email — on this site's own domain, not a free mail service like before.
 
 <!-- TODO: exact email address on the domain to be confirmed by Andrii -->
 
-Personal Telegram — [@andreii0](https://t.me/andreii0).
+The Telegram link below goes to the channel, not to direct messages.
