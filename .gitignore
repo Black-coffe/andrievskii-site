@@ -1,6 +1,22 @@
+# Окружение и секреты
+.env
+.env.*
+!.env.example
+
+# Заявки: база и всё, что рядом
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Питон
 .venv/
+venv/
 __pycache__/
 *.pyc
+
+# Сборщик Tailwind — качается вручную, см. bin/README.md
+bin/*.exe
+
+# Служебное
 .claude/
-data/
-.env
