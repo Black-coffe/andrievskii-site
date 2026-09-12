@@ -478,7 +478,7 @@ def check_files_clean(server: Server, result) -> None:
     result.section("Файлы без мусорных символов")
 
     allowed = {9, 10, 13}  # табуляция и перевод строки
-    watched = ("*.py", "*.md", "*.html", "*.css")
+    watched = ("*.py", "*.md", "*.html", "*.css", "*.js")
     dirty = []
     for pattern in watched:
         for path in Path(".").rglob(pattern):
@@ -493,6 +493,68 @@ def check_files_clean(server: Server, result) -> None:
                 dirty.append(f"{path}: возврат каретки внутри строки")
 
     result.check("управляющих символов в файлах нет", not dirty, "; ".join(dirty[:5]))
+
+
+# Событий ровно четыре, список закрыт. Появится пятое имя в events.js или
+# пропадёт одно из этих — тест упадёт здесь, а не выяснится через месяц по
+# пустому отчёту.
+ANALYTICS_EVENTS = ("yt_referral", "work_read", "form_sent", "tg_click")
+
+
+def check_analytics(server: Server, result) -> None:
+    """Аналитика подключена и считает ровно четыре события.
+
+    Само событие отправляет браузер — этого отсюда не увидеть. Зато повод
+    для отправки готовит сервер: атрибут со slug работы, последний блок
+    страницы, адрес «спасибо», ссылка на канал. Пропал повод — событие не
+    придёт, и в отчёте это выглядит как «никто не читает», а не как поломка.
+    """
+    result.section("Аналитика")
+
+    source = Path("static/js/events.js").read_text(encoding="utf-8")
+    names = sorted(set(re.findall(r'track\("(\w+)"', source)))
+    result.check(
+        "событий ровно четыре",
+        names == sorted(ANALYTICS_EVENTS),
+        ", ".join(names) or "ни одного",
+    )
+
+    status, _, _ = server.get("/static/js/events.js")
+    result.check("events.js отдаётся", status == 200, f"код {status}")
+
+    _, _, html = server.get("/")
+    scripts = re.findall(r"<script([^>]*)></script>", html)
+    result.check("скриптов на странице ровно два", len(scripts) == 2, f"{len(scripts)} шт.")
+    result.check(
+        "счётчик Statable подключён с defer",
+        any("defer" in tag and "statable.com" in tag for tag in scripts),
+    )
+    result.check(
+        "events.js подключён с defer",
+        any("defer" in tag and "/static/js/events.js" in tag for tag in scripts),
+    )
+
+    # work_read: slug берётся из атрибута, блок «что не получилось» — последний.
+    _, _, work = server.get("/works/fibi")
+    result.check('slug работы в data-work-slug', 'data-work-slug="fibi"' in work)
+    sections = re.findall(r'<section id="(\w+)"', work)
+    result.check(
+        "последний блок работы — failed",
+        sections[-1:] == ["failed"],
+        ", ".join(sections) or "ни одного",
+    )
+
+    # form_sent: страница «спасибо» есть на всех трёх языках, адрес кончается
+    # на thanks — по нему скрипт её и узнаёт.
+    for lang in LANGS:
+        path = f"{PREFIX[lang]}/thanks"
+        status, _, thanks = server.get(path)
+        if result.check(f"{path} отдаётся", status == 200, f"код {status}"):
+            result.check(f"{path}: язык страницы {lang}", page_lang(thanks) == lang)
+
+    # tg_click: ссылка на канал — та самая, по префиксу которой её ищет скрипт.
+    _, _, contact = server.get("/contact")
+    result.check("ссылка на канал на месте", 'href="https://t.me/' in contact)
 
 
 def check_form_mismatch(server: Server, result) -> None:
@@ -522,5 +584,6 @@ ALL = (
     check_telegram,
     check_config,
     check_files_clean,
+    check_analytics,
     check_form_mismatch,
 )
