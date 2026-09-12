@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import json
 import logging
 import secrets
 import time
@@ -15,7 +16,13 @@ from pathlib import Path
 from typing import Callable
 
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse, Response
+from fastapi.responses import (
+    FileResponse,
+    HTMLResponse,
+    PlainTextResponse,
+    RedirectResponse,
+    Response,
+)
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.background import BackgroundTask
@@ -58,6 +65,31 @@ THANKS = "thanks"
 
 # Всё, у чего есть адрес и файл в content/. Меню строится только по PAGES.
 ROUTED = PAGES + (THANKS,)
+
+# Открытый граф и hreflang говорят на разных языках про один и тот же
+# набор языков — таблица переводит код раздела в код локали.
+OG_LOCALE = {"ru": "ru_RU", "uk": "uk_UA", "en": "en_US"}
+
+# Человек, о котором сайт: используется ровно в одном месте — Person
+# на главной. Второй такой карточки на сайте нет и не планируется.
+PERSON_NAME = "Андрей Андриевский"
+PERSON_DESCRIPTION = (
+    "Внедряю AI в рабочие процессы: свои продукты, чужие компании, "
+    "действующие контракты."
+)
+PERSON_KNOWS_ABOUT = (
+    "Внедрение AI в рабочие процессы",
+    "Оцифровка бизнес-процессов",
+    "Интеграция ERP и CRM",
+    "MCP",
+    "Разработка продуктов на Claude Code",
+)
+PERSON_SAME_AS = (
+    "https://www.youtube.com/@andrievskii",
+    "https://t.me/andrievskii_ai",
+)
+
+FAVICON_PATH = BASE_DIR / "static" / "favicon.ico"
 
 # Скрытое поле-ловушка: заполнено — значит, это бот.
 HONEYPOT = "website"
@@ -139,6 +171,53 @@ def build_alternates(request: Request, versions: dict[str, str]) -> dict:
             for code, path in versions.items()
         ],
         "default": absolute(request, default) if default else None,
+    }
+
+
+def build_head(request: Request, lang: str, title: str, description: str, jsonld: list[dict]) -> dict:
+    """Блок <head>: заголовок, canonical, открытый граф, JSON-LD.
+
+    Заголовок и описание не заводятся заново — те же, что уже собраны
+    для <title> и meta description. JSON-LD передаётся уже готовыми
+    объектами и здесь только сериализуется — какие блоки нужны странице,
+    решает вызывающая сторона.
+    """
+    return {
+        "title": title,
+        "description": description,
+        "canonical": absolute(request, request.url.path),
+        "image": absolute(request, "/static/og-image.png"),
+        "locale": OG_LOCALE.get(lang, OG_LOCALE[BASE_LANG]),
+        "alt_locales": [code for lang_code, code in OG_LOCALE.items() if lang_code != lang],
+        "jsonld": [json.dumps(block, ensure_ascii=False) for block in jsonld],
+    }
+
+
+def person_jsonld(request: Request) -> dict:
+    """Person: тот, о ком сайт. Один блок, только на главной."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": PERSON_NAME,
+        "description": PERSON_DESCRIPTION,
+        "url": absolute(request, "/"),
+        "sameAs": list(PERSON_SAME_AS),
+        "knowsAbout": list(PERSON_KNOWS_ABOUT),
+    }
+
+
+def work_jsonld(request: Request, work: content.Work) -> dict:
+    """CreativeWork: одна работа, автор — ссылкой на Person."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": work.title,
+        "description": work.summary,
+        "author": {
+            "@type": "Person",
+            "name": PERSON_NAME,
+            "url": absolute(request, "/"),
+        },
     }
 
 
@@ -243,9 +322,13 @@ def render_page(
     doc = content.load_page(lang, page)
     versions = page_versions(page)
 
+    # Person — не про раздел, про сайт целиком, поэтому только на главной:
+    # вторая карточка того же человека на другой странице ничего не добавит.
+    jsonld = [person_jsonld(request)] if page == "index" else []
+
     context = {
         "lang": lang,
-        "head": {"title": doc.title, "description": doc.description},
+        "head": build_head(request, lang, doc.title, doc.description, jsonld),
         "page": doc,
         "action": build_action(lang, doc),
         "nav": build_nav(lang, page),
@@ -313,7 +396,7 @@ def render_work(request: Request, lang: str, slug: str) -> Response:
         "work.html",
         {
             "lang": lang,
-            "head": {"title": work.title, "description": work.summary},
+            "head": build_head(request, lang, work.title, work.summary, [work_jsonld(request, work)]),
             "work": work,
             "action": build_action(index_lang, works_index),
             "nav": build_nav(lang, "works"),
@@ -452,6 +535,57 @@ def register_routes() -> None:
                 include_in_schema=False,
                 name=f"{lang}-root",
             )
+
+
+def sitemap_urls(request: Request) -> list[dict]:
+    """Все реальные страницы сайта, во всех языках, с их alternate-парами.
+
+    Источник — те же page_versions/work_versions, что уже строят hreflang
+    в шапке: список страниц не может разъехаться с самим сайтом, потому что
+    считается тем же кодом.
+    """
+    urls = []
+    for page in PAGES:
+        versions = page_versions(page)
+        for lang, path in versions.items():
+            urls.append({"loc": absolute(request, path), "versions": versions})
+
+    work_slugs = sorted(p.stem for p in (content.WORKS_DIR / content.BASE_LANG).glob("*.md"))
+    for slug in work_slugs:
+        versions = work_versions(slug)
+        for lang, path in versions.items():
+            urls.append({"loc": absolute(request, path), "versions": versions})
+    return urls
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon() -> Response:
+    """Браузер просит именно корневой путь — статика лежит под /static/."""
+    return FileResponse(FAVICON_PATH)
+
+
+@app.get("/robots.txt", include_in_schema=False, response_class=PlainTextResponse)
+async def robots(request: Request) -> str:
+    return f"User-agent: *\nAllow: /\n\nSitemap: {absolute(request, '/sitemap.xml')}\n"
+
+
+@app.get("/sitemap.xml", include_in_schema=False)
+async def sitemap(request: Request) -> Response:
+    parts = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ]
+    for entry in sitemap_urls(request):
+        parts.append("  <url>")
+        parts.append(f"    <loc>{entry['loc']}</loc>")
+        for lang, path in entry["versions"].items():
+            parts.append(
+                f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{absolute(request, path)}"/>'
+            )
+        parts.append("  </url>")
+    parts.append("</urlset>")
+    return Response("\n".join(parts) + "\n", media_type="application/xml")
 
 
 register_routes()

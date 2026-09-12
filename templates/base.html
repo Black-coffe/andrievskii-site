@@ -7,6 +7,36 @@
   {%- if head.description %}
   <meta name="description" content="{{ head.description }}">
   {%- endif %}
+  <link rel="canonical" href="{{ head.canonical }}">
+  {#- Фавикон: svg — современным браузерам, ico — тем, кто просит его
+      напрямую с корня (и как запасной вариант в rel="icon"). #}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  {#- Открытый граф и Twitter Card — заголовок и описание те же, что уже
+      наполняют <title> и meta description: второй системы текстов нет. #}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="andrievskii.site">
+  <meta property="og:locale" content="{{ head.locale }}">
+  {%- for alt in head.alt_locales %}
+  <meta property="og:locale:alternate" content="{{ alt }}">
+  {%- endfor %}
+  <meta property="og:title" content="{{ head.title }}">
+  {%- if head.description %}
+  <meta property="og:description" content="{{ head.description }}">
+  {%- endif %}
+  <meta property="og:url" content="{{ head.canonical }}">
+  <meta property="og:image" content="{{ head.image }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ head.title }}">
+  {%- if head.description %}
+  <meta name="twitter:description" content="{{ head.description }}">
+  {%- endif %}
+  <meta name="twitter:image" content="{{ head.image }}">
+  {%- for block in head.jsonld %}
+  <script type="application/ld+json">{{ block|safe }}</script>
+  {%- endfor %}
   {#- Языковые версии этой самой страницы, а не сайта вообще: адреса
       абсолютные, каждая версия названа, включая текущую. Раздела нет
       на языке — строки на него здесь и не будет.

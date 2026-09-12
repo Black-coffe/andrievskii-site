@@ -1,0 +1,9 @@
+{
+  "name": "andrievskii-site-tools",
+  "private": true,
+  "description": "Инструменты сборки статики (og-картинка). Не часть приложения — в requirements.txt не входит.",
+  "type": "module",
+  "dependencies": {
+    "puppeteer-core": "^23.0.0"
+  }
+}
