@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import re
@@ -87,6 +88,48 @@ def check_schema_breaks(server: Server, result) -> None:
     result.check("несуществующая работа — 404", status == 404, f"код {status}")
     status, _, _ = server.get("/uk/net-takogo-razdela")
     result.check("несуществующий раздел — 404", status == 404, f"код {status}")
+
+
+def check_jsonld_escaping(server: Server, result) -> None:
+    """`</script>` в тексте работы не рвёт ld+json и разметку страницы.
+
+    Заголовки и описания работ приходят из content/**, а сайт как раз про
+    разработку — такая последовательность в чьём-то тексте про вёрстку
+    не редкость. build_head обязан экранировать её до вставки в шаблон.
+    """
+    result.section("JSON-LD экранирован")
+
+    probe = Path("content/works/ru/probe-jsonld.md")
+    try:
+        probe.write_text(
+            "---\nslug: \"probe-jsonld\"\n"
+            "title: \"</script><script>alert(1)</script>\"\n"
+            "client_type: \"\"\nperiod: \"\"\nstack: []\n"
+            "summary: \"текст с </script> внутри\"\n---\n\n"
+            "## Задача\n\nтекст\n\n## Что было до\n\nтекст\n\n## Как устроено\n\nтекст\n\n"
+            "## Что получилось\n\nтекст\n\n## Что не получилось\n\nтекст\n",
+            encoding="utf-8",
+        )
+        status, _, body = server.get("/works/probe-jsonld")
+        result.check("страница отдаётся", status == 200, f"код {status}")
+
+        opens = len(re.findall(r"<script[ >]", body))
+        closes = body.count("</script>")
+        result.check(
+            "открывающих и закрывающих script поровну",
+            opens == closes and opens > 0,
+            f"{opens} / {closes}",
+        )
+
+        block = re.search(r'<script type="application/ld\+json">(.*?)</script>', body, re.DOTALL)
+        result.check("блок ld+json найден", block is not None)
+        if block:
+            raw = block.group(1)
+            result.check("сырой `</script>` внутрь блока не попал", "</script>" not in raw)
+            parsed = json.loads(raw)
+            result.check("ld+json остаётся валидным json", parsed.get("@type") == "CreativeWork")
+    finally:
+        probe.unlink(missing_ok=True)
 
 
 def check_menu(server: Server, result) -> None:
@@ -578,6 +621,7 @@ def check_form_mismatch(server: Server, result) -> None:
 ALL = (
     check_content,
     check_schema_breaks,
+    check_jsonld_escaping,
     check_menu,
     check_languages,
     check_form,

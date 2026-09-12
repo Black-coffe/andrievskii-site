@@ -189,8 +189,20 @@ def build_head(request: Request, lang: str, title: str, description: str, jsonld
         "image": absolute(request, "/static/og-image.png"),
         "locale": OG_LOCALE.get(lang, OG_LOCALE[BASE_LANG]),
         "alt_locales": [code for lang_code, code in OG_LOCALE.items() if lang_code != lang],
-        "jsonld": [json.dumps(block, ensure_ascii=False) for block in jsonld],
+        "jsonld": [_dump_jsonld(block) for block in jsonld],
     }
+
+
+def _dump_jsonld(block: dict) -> str:
+    """JSON-LD, безопасный для вставки прямо в <script>.
+
+    Заголовки и описания приходят из content/**, а сайт как раз про
+    разработку — `</script>` в чьём-то тексте про вёрстку не редкость.
+    `<` уходит в `\\u003c` до того, как строка попадёт в шаблон: этого
+    достаточно и для `</script>`, и для `<!--`, а JSON остаётся валидным —
+    `\\u003c` разворачивается обратно при разборе как обычный экранированный код.
+    """
+    return json.dumps(block, ensure_ascii=False).replace("<", "\\u003c")
 
 
 def person_jsonld(request: Request) -> dict:
