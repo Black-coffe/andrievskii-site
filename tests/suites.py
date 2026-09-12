@@ -273,7 +273,11 @@ def check_form(server: Server, result) -> None:
     fields = re.findall(r'<(?:input|textarea) id="field-(\w+)"', html)
     result.check("форма отдаётся", status == 200, f"код {status}")
     result.check("полей ровно три", fields == list(leads.FIELDS), str(fields))
-    result.check("ни одного тега <script>", "<script" not in html)
+    # Аналитика (Statable) грузится на каждой странице через defer-скрипты —
+    # это не то же самое, что форма, зависящая от JavaScript для отправки.
+    # Проверяем узкий факт: обычная форма без обработчиков на submit/кнопке.
+    result.check("форма без обработчика отправки", "onsubmit=" not in html)
+    result.check("кнопка без обработчика клика", "onclick=" not in html)
     result.check("ловушка на месте", 'name="website"' in html)
     result.check("метка времени подписана", "." in stamp_of(html))
     result.check("mailto рядом с формой", 'href="mailto:' in html)

@@ -9,7 +9,7 @@
   намеренно сделан тихой ссылкой, а не второй кнопкой.
 #}
 {% block content %}
-<article lang="{{ work.lang }}">
+<article lang="{{ work.lang }}" data-work-slug="{{ work.slug }}">
   <h1 class="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{{ work.title }}</h1>
 
   {%- for part in work.parts %}

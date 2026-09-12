@@ -22,6 +22,11 @@
   <link rel="preload" href="/static/fonts/golos-text-{{ subset }}.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/literata-{{ subset }}.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/static/css/site.css">
+  {#- Аналитика Statable: скрипт сам решает, грузиться ли; события шлёт
+      static/js/events.js. Оба defer — не блокируют разбор страницы,
+      выполняются после него, в порядке объявления. #}
+  <script defer src="https://statable.com/js/3335760/s.js"></script>
+  <script defer src="/static/js/events.js"></script>
 </head>
 <body class="min-h-screen bg-ground text-ink">
   <header class="border-b border-line">
