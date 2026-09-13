@@ -301,3 +301,30 @@
     background-color: color-mix(in oklab, var(--color-accent) 86%, var(--color-ink));
   }
 }
+
+/* Заголовки внутри markdown-текста разделов. Появились со страницей материалов:
+   до неё в content/*.md заголовков не было, и правил под них тоже. Шрифт —
+   интерфейсный, чтобы заголовок отличался от серифного тела текста. */
+.prose h2 {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  margin-top: 2.2em;
+}
+
+.prose h3 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: 1.9em;
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.7em;
+}
