@@ -7,6 +7,36 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 2 — "MCP from scratch: connecting Claude to my own data in 20 minutes"
+
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/Gk8QB-5l4ms" title="MCP from scratch: connecting Claude to my own data in 20 minutes" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+A model can reason and write code, yet it cannot see a single file of yours. MCP is the protocol that fixes this. Fourteen minutes: the demo server from the docs, wiring it up and proving it with a real call, then a task written in plain words — and Claude Code writes a three-tool server over two hundred orders of a fictional coffee shop.
+
+### What to take
+
+Everything sits in the open [**mcp-starter-kit**](https://github.com/Black-coffe/mcp-starter-kit) repository.
+
+- [`gen_orders.py`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/gen_orders.py) — the synthetic order generator. Deterministic, so your numbers match the ones in the video.
+- [`data/orders.json`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/data/orders.json) — two hundred fictional orders. The company does not exist; the data is synthetic.
+- [`server-minimal/server.py`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/server-minimal/server.py) — the reference three-tool server, under sixty lines.
+- [`prompts/server.md`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/prompts/server.md) — the plain-words task handed to Claude Code in the video instead of ready code.
+- [`config-example.json`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/config-example.json) — a sample `.mcp.json`.
+
+### Homework — twenty minutes to an hour
+
+**Stand up a minimal MCP server with one tool over your own folder, then ask Claude three questions it cannot answer without it.**
+
+1. **One tool, not three.** The point is walking the whole path, not the volume.
+2. **Connect it** and confirm the model can see it.
+3. **Ask three questions.** You will know instantly: a precise answer with numbers from your files beats general words.
+
+In the comments, tell me one thing: which tool you built and which question broke it. The second is more interesting than the first.
+
+---
+
 ## Video 1 — "My site sat broken for five years. Rebuilding it into a portal"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">

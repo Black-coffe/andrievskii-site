@@ -7,6 +7,36 @@ description: "Чек-листи, шаблони, репозиторій — ус
 
 Матеріали — те, що викладаю в описі до роликів на YouTube: чек-листи, шаблони і код, які можна забрати і використати одразу.
 
+## Ролик 2 — «MCP з нуля: підключаю Claude до своїх даних за 20 хвилин»
+
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/Gk8QB-5l4ms" title="MCP з нуля: підключаю Claude до своїх даних за 20 хвилин" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+Модель уміє міркувати й писати код, але не бачить жодного вашого файлу. MCP — протокол, який це лагодить. Чотирнадцять хвилин: демо-сервер з документації, підключення й перевірка викликом, а далі задача словами — і Claude Code пише сервер на три інструменти над двома сотнями замовлень вигаданої кавʼярні.
+
+### Що забрати
+
+Усе лежить у відкритому репозиторії [**mcp-starter-kit**](https://github.com/Black-coffe/mcp-starter-kit).
+
+- [`gen_orders.py`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/gen_orders.py) — генератор синтетичних замовлень. Детермінований: у вас вийдуть ті самі цифри, що в ролику.
+- [`data/orders.json`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/data/orders.json) — двісті вигаданих замовлень кавʼярні «Три зерна». Компанії не існує, дані синтетичні.
+- [`server-minimal/server.py`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/server-minimal/server.py) — еталонний сервер на три інструменти, коротший за шістдесят рядків.
+- [`prompts/server.md`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/prompts/server.md) — та сама задача словами, яку в ролику віддають Claude Code замість готового коду.
+- [`config-example.json`](https://github.com/Black-coffe/mcp-starter-kit/blob/main/config-example.json) — зразок `.mcp.json` для реєстрації сервера.
+
+### Домашка — від двадцяти хвилин до години
+
+**Підніміть мінімальний MCP-сервер з одним інструментом над своєю текою і поставте Claude три питання, на які він без нього не відповідає.**
+
+1. **Один інструмент, а не три.** Річ не в обсязі, а в тому, щоб пройти шлях повністю.
+2. **Підключіть його** і переконайтеся, що модель його бачить.
+3. **Поставте три питання.** Результат перевіряється одразу: запитали — дістали точну відповідь із цифрами зі своїх файлів, а не загальні слова.
+
+Напишіть у коментарях під роликом одну річ: який інструмент ви зробили і на якому питанні він зламався. Друге цікавіше за перше.
+
+---
+
 ## Ролик 1 — «Мій сайт не працював п’ять років. Перезбираю його в портал»
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
