@@ -10,7 +10,7 @@ Materials are what I publish in the description of my YouTube videos: checklists
 ## Video 3 — "Claude assembles my work documents by itself. Showing the whole system"
 
 <div style="padding:1.4em;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
-The video goes live on 09/28/2026 in the "Claude Code deep dive" playlist. Until it's up — the <a href="https://www.youtube.com/@andrievskii">channel on YouTube</a>.
+The video goes live on 09/28/2026 at 11:00 (UTC+3) in the channel's "AI под работу" playlist — <a href="https://youtu.be/FA1oVqBTUeM">watch on YouTube</a>.
 </div>
 
 Assembling the same document by hand — a table, a report, a statement — is a habit, not a necessity. Claude Code can find a skill by its description and run the right script on its own, with no manual terminal call. Shown on a reference example: a docx template that breaks on merged cells and a two-level header, a fill-in script, and a fictional company, Meridian.
