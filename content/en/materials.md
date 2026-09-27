@@ -7,6 +7,38 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 3 — "Claude assembles my work documents by itself. Showing the whole system"
+
+<div style="padding:1.4em;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+The video goes live on 09/28/2026 in the "Claude Code deep dive" playlist. Until it's up — the <a href="https://www.youtube.com/@andrievskii">channel on YouTube</a>.
+</div>
+
+Assembling the same document by hand — a table, a report, a statement — is a habit, not a necessity. Claude Code can find a skill by its description and run the right script on its own, with no manual terminal call. Shown on a reference example: a docx template that breaks on merged cells and a two-level header, a fill-in script, and a fictional company, Meridian.
+
+### What to take
+
+Everything sits in the open [**skills-starter-kit**](https://github.com/Black-coffe/skills-starter-kit) repository.
+
+- [`skill-skeleton/SKILL.md`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/SKILL.md) — the reference skill: a `name`/`description` header and the filling rules.
+- [`skill-skeleton/templates/report-template.docx`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/templates/report-template.docx) — the neutral report template.
+- [`skill-skeleton/scripts/fill_report.py`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/scripts/fill_report.py) — the script that fills the template with data.
+- [`gen/make_templates.py`](https://github.com/Black-coffe/skills-starter-kit/blob/main/gen/make_templates.py) — the synthetic template generator, deterministic.
+- [`data/shipments.csv`](https://github.com/Black-coffe/skills-starter-kit/blob/main/data/shipments.csv) — twelve fictional shipments from Meridian for August 2026.
+- [`demo-naive/`](https://github.com/Black-coffe/skills-starter-kit/tree/main/demo-naive) — the same neutral template with no skill and no rules: what you get if you just ask a model to fill it in.
+- [`demo-break/`](https://github.com/Black-coffe/skills-starter-kit/tree/main/demo-break) — a template with headers/footers, merged cells and a two-level table header, on which the script gets it wrong.
+
+### Homework — half an hour and up
+
+**Take a document you make regularly, put its template and instructions into a skill folder, and get a finished file from a single plain-language request.**
+
+1. **Study `skill-skeleton/` as a structure sample** — `SKILL.md` → `templates/` → `scripts/`.
+2. **Build your own version**: your own template, your own fill-in script; keep the data next to the skill, not inside its own folder.
+3. **Ask in plain words.** Don't call the script by hand — ask Claude Code in a sentence ("put together the report for such-and-such period from this file") and confirm it finds the skill by its `description` and runs the right script on its own.
+
+On the sample data the reference skill produces a header naming Meridian, the period "August 2026", twelve rows in CSV order, and a total of $164,850 — computed by the script, never stored in the CSV. A different total means the mismatch is in the template or the script, not the data.
+
+---
+
 ## Video 2 — "MCP from scratch: connecting Claude to my own data in 20 minutes"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">

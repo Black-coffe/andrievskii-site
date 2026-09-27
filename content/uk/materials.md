@@ -7,6 +7,38 @@ description: "Чек-листи, шаблони, репозиторій — ус
 
 Матеріали — те, що викладаю в описі до роликів на YouTube: чек-листи, шаблони і код, які можна забрати і використати одразу.
 
+## Ролик 3 — «Claude сам збирає мої робочі документи. Показую систему цілком»
+
+<div style="padding:1.4em;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+Ролик виходить 28.09.2026 у плейлисті «Claude Code глибоко». Поки відео не з'явилося — <a href="https://www.youtube.com/@andrievskii">канал на YouTube</a>.
+</div>
+
+Збирати один і той самий документ руками — таблицю, звіт, акт — звичка, а не необхідність. Claude Code вміє знаходити скіл за описом і сам запускати потрібний скрипт, без ручного виклику з термінала. Показую на еталонному прикладі: docx-шаблон, що ламається на об'єднаних клітинках і дворівневій шапці, скрипт підстановки даних і вигадана компанія «Меридіан».
+
+### Що забрати
+
+Усе лежить у відкритому репозиторії [**skills-starter-kit**](https://github.com/Black-coffe/skills-starter-kit).
+
+- [`skill-skeleton/SKILL.md`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/SKILL.md) — еталонний скіл: шапка `name`/`description` і правила заповнення.
+- [`skill-skeleton/templates/report-template.docx`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/templates/report-template.docx) — нейтральний шаблон звіту.
+- [`skill-skeleton/scripts/fill_report.py`](https://github.com/Black-coffe/skills-starter-kit/blob/main/skill-skeleton/scripts/fill_report.py) — скрипт підстановки даних у шаблон.
+- [`gen/make_templates.py`](https://github.com/Black-coffe/skills-starter-kit/blob/main/gen/make_templates.py) — генератор синтетичних шаблонів, детермінований.
+- [`data/shipments.csv`](https://github.com/Black-coffe/skills-starter-kit/blob/main/data/shipments.csv) — дванадцять вигаданих відвантажень компанії «Меридіан» за серпень 2026.
+- [`demo-naive/`](https://github.com/Black-coffe/skills-starter-kit/tree/main/demo-naive) — той самий нейтральний шаблон без скіла і без правил: що виходить, якщо просто попросити модель заповнити його.
+- [`demo-break/`](https://github.com/Black-coffe/skills-starter-kit/tree/main/demo-break) — шаблон з колонтитулами, об'єднаними клітинками і дворівневою шапкою таблиці, на якому скрипт робить не те.
+
+### Домашка — від пів години
+
+**Візьміть документ, який робите регулярно, покладіть шаблон та інструкцію в папку скіла і отримайте готовий файл з одного рядка запиту.**
+
+1. **Розберіть `skill-skeleton/` як зразок структури** — `SKILL.md` → `templates/` → `scripts/`.
+2. **Зберіть свою версію**: свій шаблон, свій скрипт підстановки; дані кладіть поруч зі скілом, а не всередину його папки.
+3. **Запитайте звичайною мовою.** Не викликайте скрипт руками — попросіть Claude Code словами («зроби звіт за такий-то період із такого-то файлу») і переконайтеся, що він сам знаходить скіл за `description` і запускає потрібний скрипт.
+
+На вхідних даних еталон дає шапку «Меридіан», період «серпень 2026», дванадцять рядків за порядком CSV і підсумок 164 850 $ — порахований скриптом, у CSV не зберігається. Інший підсумок означає розбіжність у шаблоні або скрипті, не в даних.
+
+---
+
 ## Ролик 2 — «MCP з нуля: підключаю Claude до своїх даних за 20 хвилин»
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
