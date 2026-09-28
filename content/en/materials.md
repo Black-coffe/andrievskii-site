@@ -9,8 +9,8 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 3 — "Claude assembles my work documents by itself. Showing the whole system"
 
-<div style="padding:1.4em;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
-The video goes live on 09/28/2026 at 11:00 (UTC+3) in the channel's "AI под работу" playlist — <a href="https://youtu.be/FA1oVqBTUeM">watch on YouTube</a>.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/FA1oVqBTUeM" title="Claude assembles my work documents by itself. Showing the whole system" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 Assembling the same document by hand — a table, a report, a statement — is a habit, not a necessity. Claude Code can find a skill by its description and run the right script on its own, with no manual terminal call. Shown on a reference example: a docx template that breaks on merged cells and a two-level header, a fill-in script, and a fictional company, Meridian.

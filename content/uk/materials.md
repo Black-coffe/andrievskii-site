@@ -9,8 +9,8 @@ description: "Чек-листи, шаблони, репозиторій — ус
 
 ## Ролик 3 — «Claude сам збирає мої робочі документи. Показую систему цілком»
 
-<div style="padding:1.4em;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
-Ролик виходить 28.09.2026 об 11:00 (UTC+3) у плейлисті «AI під роботу» — <a href="https://youtu.be/FA1oVqBTUeM">дивитися на YouTube</a>.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/FA1oVqBTUeM" title="Claude сам збирає мої робочі документи. Показую систему цілком" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 Збирати один і той самий документ руками — таблицю, звіт, акт — звичка, а не необхідність. Claude Code вміє знаходити скіл за описом і сам запускати потрібний скрипт, без ручного виклику з термінала. Показую на еталонному прикладі: docx-шаблон, що ламається на об'єднаних клітинках і дворівневій шапці, скрипт підстановки даних і вигадана компанія «Меридіан».
