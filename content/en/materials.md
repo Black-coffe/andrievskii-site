@@ -7,6 +7,43 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 4 — "Dubbing in your own voice: three ways to translate a video with Claude Code, one of them free"
+
+Video 4 is not published yet, so this section holds links only. The video we dub is [video 3](https://youtu.be/FA1oVqBTUeM): watch it first so you can compare the original with the dub. Viewers wrote to me: "you speak Ukrainian but write in Russian." Fair. I show how to dub a video yourself: the same voice, another language. Three options side by side, each one you can hear, and an honest price for each on a 20-minute video. The main idea: a model does not need a prompt, it needs a workplace: a folder with instructions, a glossary and scripts.
+
+### What to take
+
+Everything sits in the open [**dubbing-starter-kit**](https://github.com/Black-coffe/dubbing-starter-kit) repository.
+
+- [`README.md`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/README.md) — setup, how to run all three options, and the full homework.
+- [`dub.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/dub.py) — option A: Demucs, faster-whisper, Claude translating by the glossary, ElevenLabs voicing with a clone of your voice, timing fit. About $0.20 per 20-minute video as measured (the voicing price was on promotion).
+- [`eldub.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/eldub.py) — option B: the ready-made ElevenLabs Dubbing API service, for comparison. From $10 to $23 per 20-minute video.
+- [`variant_local.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/variant_local.py) and [`tts_omnivoice.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/tts_omnivoice.py) — option C: all local and free, translation in Ollama and the OmniVoice voice. About $0.01 in electricity, a graphics card is required.
+- [`glossary.json`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/glossary.json) — the term glossary: what to leave untranslated and how to pronounce it.
+- [`ab.html`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/ab.html) — a page that switches between the tracks every few seconds.
+
+### Tracks to compare by ear
+
+The same 3:15 fragment of video 3, dubbed three ways. The tracks are level-matched so the loud one does not seem better.
+
+- [Track A](https://raw.githubusercontent.com/Black-coffe/dubbing-starter-kit/main/tracks/A.m4a) — our `dub.py` pipeline: voice clone, glossary-based translation.
+- [Track B](https://raw.githubusercontent.com/Black-coffe/dubbing-starter-kit/main/tracks/B.m4a) — the ready-made service, ElevenLabs Dubbing API, one command.
+- [Track C](https://raw.githubusercontent.com/Black-coffe/dubbing-starter-kit/main/tracks/C.m4a) — all local and free: Ollama and OmniVoice.
+
+The OmniVoice weights (option C) are released under CC-BY-NC: non-commercial use only. C does not suit a monetized channel; you need a different model there.
+
+### Homework — about an hour
+
+**Dub 30 seconds of your own video into another language in your own voice and compare the result by ear with a ready-made service.**
+
+1. Take a 30-second fragment of your video and put it in a folder together with a task description; let Claude Code first ask you about services, hardware and budget.
+2. Run the fragment through the pipeline, read the translation next to the original and fix what the glossary does not catch.
+3. Play your track and the ready-made service's track, switching every 6 seconds from the same spot, and write down which sounds better and what it cost.
+
+If you have done this before, write in the comments which language and which option you chose, and where the pronunciation broke.
+
+---
+
 ## Video 3 — "Claude assembles my work documents by itself. Showing the whole system"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
