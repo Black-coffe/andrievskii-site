@@ -9,7 +9,11 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 4 — "Dubbing in your own voice: three ways to translate a video with Claude Code, one of them free"
 
-Video 4 is not published yet, so this section holds links only. The video we dub is [video 3](https://youtu.be/FA1oVqBTUeM): watch it first so you can compare the original with the dub. Viewers wrote to me: "you speak Ukrainian but write in Russian." Fair. I show how to dub a video yourself: the same voice, another language. Three options side by side, each one you can hear, and an honest price for each on a 20-minute video. The main idea: a model does not need a prompt, it needs a workplace: a folder with instructions, a glossary and scripts.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/IT9yzqFiF9c" title="Dubbing in your own voice: three ways to translate a video with Claude Code, one of them free" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+The video we dub is [video 3](https://youtu.be/FA1oVqBTUeM): watch it first so you can compare the original with the dub. Viewers wrote to me: "you speak Ukrainian but write in Russian." Fair. I show how to dub a video yourself: the same voice, another language. Three options side by side, each one you can hear, and an honest price for each on a 20-minute video. The main idea: a model does not need a prompt, it needs a workplace: a folder with instructions, a glossary and scripts.
 
 ### What to take
 
