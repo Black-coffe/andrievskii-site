@@ -21,6 +21,7 @@ Everything sits in the open [**dubbing-starter-kit**](https://github.com/Black-c
 - [`variant_local.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/variant_local.py) and [`tts_omnivoice.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/tts_omnivoice.py) — option C: all local and free, translation in Ollama and the OmniVoice voice. About $0.01 in electricity, a graphics card is required.
 - [`glossary.json`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/glossary.json) — the term glossary: what to leave untranslated and how to pronounce it.
 - [`ab.html`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/ab.html) — a page that switches between the tracks every few seconds.
+- [**ai-video-dubbing**](https://github.com/Black-coffe/ai-video-dubbing) — a ready-made dubbing program for your own keys, in English, with instructions and prompts for Claude Code and Codex.
 
 ### Tracks to compare by ear
 

@@ -21,6 +21,7 @@ description: "Чек-листи, шаблони, репозиторій — ус
 - [`variant_local.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/variant_local.py) і [`tts_omnivoice.py`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/tts_omnivoice.py) — варіант C: усе локально й безкоштовно, переклад в Ollama і голос OmniVoice. Близько $0.01 за електрику, потрібна відеокарта.
 - [`glossary.json`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/glossary.json) — словник термінів: що не перекладати і як вимовляти.
 - [`ab.html`](https://github.com/Black-coffe/dubbing-starter-kit/blob/main/ab.html) — сторінка, де доріжки перемикаються кожні кілька секунд.
+- [**ai-video-dubbing**](https://github.com/Black-coffe/ai-video-dubbing) — готова програма дубляжу під свої ключі, англійською, з інструкцією та промптами для Claude Code і Codex.
 
 ### Доріжки для порівняння на слух
 
