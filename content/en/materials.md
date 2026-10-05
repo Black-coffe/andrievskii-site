@@ -9,7 +9,11 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 5 — "LinkGuard: Claude wrote the code, but there are no sales"
 
-Video 5 is not published yet, so this section holds links only. Last autumn I wrote down a number: in six months the service earned $510. Claude Code wrote all of the code, 759 commits out of 759, and that part was easy. The service is alive; the money got lost somewhere else. I walk the whole path through my real prompts in six steps: idea, tasks, code, production, money, sales. The main mistake was not in the code: I never wrote down a stop number in advance, how much time and money before you quit.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/n9umDWm9k8A" title="LinkGuard: Claude wrote the code, but there are no sales" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+Last autumn I wrote down a number: in six months the service earned $510. Claude Code wrote all of the code, 759 commits out of 759, and that part was easy. The service is alive; the money got lost somewhere else. I walk the whole path through my real prompts in six steps: idea, tasks, code, production, money, sales. The main mistake was not in the code: I never wrote down a stop number in advance, how much time and money before you quit.
 
 ### What to take
 
