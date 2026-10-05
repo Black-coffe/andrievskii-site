@@ -7,6 +7,34 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 5 — "LinkGuard: Claude wrote the code, but there are no sales"
+
+Video 5 is not published yet, so this section holds links only. Last autumn I wrote down a number: in six months the service earned $510. Claude Code wrote all of the code, 759 commits out of 759, and that part was easy. The service is alive; the money got lost somewhere else. I walk the whole path through my real prompts in six steps: idea, tasks, code, production, money, sales. The main mistake was not in the code: I never wrote down a stop number in advance, how much time and money before you quit.
+
+### What to take
+
+Everything sits in the open [**idea-to-backlog-kit**](https://github.com/Black-coffe/idea-to-backlog-kit) repository (files are in Russian).
+
+- [`README.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/README.md) — the assignment and the full order of work.
+- [`checklist.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/checklist.md) — the six steps of the video and the homework.
+- [`spec-template.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/spec-template.md) — a one-page spec: three people who will pay, their answers, and the stop number.
+- [`decomposition-prompt.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/decomposition-prompt.md) — a Claude Code prompt that turns the spec into a task tree you can hand over one task at a time.
+- [`CLAUDE.md.example`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/CLAUDE.md.example) — an example `CLAUDE.md` as a short project index.
+- [`review-checklist.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/review-checklist.md) — how to accept Claude's work after every task.
+
+### Homework — an evening for the spec and the task tree, plus talking to three people
+
+**I did it backwards; you do it in order.**
+
+1. Name three people who will pay for your idea.
+2. Ask them.
+3. Turn the idea into a task tree.
+4. Write down your stop number: how much time and money before you quit.
+
+Tell me in the video comments what stop number you set and what your three people said.
+
+---
+
 ## Video 4 — "Dubbing in your own voice: three ways to translate a video with Claude Code, one of them free"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">

@@ -7,6 +7,34 @@ description: "Чек-листи, шаблони, репозиторій — ус
 
 Матеріали — те, що викладаю в описі до роликів на YouTube: чек-листи, шаблони і код, які можна забрати і використати одразу.
 
+## Ролик 5 — «LinkGuard: код написав Claude, а продажів немає»
+
+Ролик 5 поки не опубліковано, тому тут лише посилання. Восени я записав собі цифру: за пів року сервіс заробив $510. Весь код написав Claude Code, 759 комітів із 759, і це було легко. Сервіс живий, гроші загубилися в іншому місці. Проходжу весь шлях своїми справжніми промптами через шість кроків: ідея, задачі, код, прод, гроші, продажі. Головна помилка не в коді, а в тому, що я заздалегідь не записав стоп-цифру: скільки часу й грошей, після яких кидаєш.
+
+### Що забрати
+
+Усе лежить у відкритому репозиторії [**idea-to-backlog-kit**](https://github.com/Black-coffe/idea-to-backlog-kit) (файли російською).
+
+- [`README.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/README.md) — завдання і порядок роботи повністю.
+- [`checklist.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/checklist.md) — шість кроків ролика і домашка.
+- [`spec-template.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/spec-template.md) — ТЗ на одну сторінку: троє людей, які заплатять, їхні відповіді і стоп-цифра.
+- [`decomposition-prompt.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/decomposition-prompt.md) — промпт для Claude Code: з ТЗ у дерево задач, які можна віддавати по одній.
+- [`CLAUDE.md.example`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/CLAUDE.md.example) — приклад `CLAUDE.md` як короткого індексу проєкту.
+- [`review-checklist.md`](https://github.com/Black-coffe/idea-to-backlog-kit/blob/main/review-checklist.md) — як приймати роботу Claude після кожної задачі.
+
+### Домашка — вечір на ТЗ і дерево задач, плюс розмови з трьома людьми
+
+**Я зробив навпаки, а ти зроби по порядку.**
+
+1. Назви трьох людей, які заплатять за твою ідею.
+2. Запитай їх.
+3. Доведи ідею до дерева задач.
+4. Запиши стоп-цифру: скільки часу й грошей, після яких кидаєш.
+
+Напиши в коментарях до ролика, яку стоп-цифру ти собі поставив і що відповіли твої троє.
+
+---
+
 ## Ролик 4 — «Дубляж своїм голосом: три способи перекласти ролик із Claude Code, один безкоштовний»
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
