@@ -7,6 +7,29 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 6 — "Your own program for your own pain: building with Claude what services don't have"
+
+Video 6 is not published yet, so here are only links. The video is about a method: how to bring a program for your own work pain to a working state together with Claude Code. Recall is the example of the result: an archive of calls with transcription on your own graphics card and search by meaning. The downsides are shown too: Claude labels the wrong speaker, transcription is worse on a weak graphics card, and a quote cannot be trusted without checking.
+
+### What to take
+
+The example of the result sits in the open repository [**Black-coffe/recall**](https://github.com/Black-coffe/recall): install it by the README and study it as an example, not as a finished product.
+
+### Checklist of six stages
+
+1. **Name your pain.** One work situation that a ready-made service does not cover.
+2. **Build with Claude step by step.** Not everything at once: a small piece, a check, the next one.
+3. **Put it to work.** Run it on real data, not on a stub.
+4. **Catch where it lies.** Find places where the result looks right but does not match the source.
+5. **Compare with the ready-made one and count.** What your own version gave and what it costs in money and time.
+6. **Install it for yourself.** The program lives with you and works without a demo.
+
+### Homework
+
+Now the homework. Write down one work pain of your own that a ready-made service does not cover. Install Recall with Claude Code as a sample and ask Claude to add one thing to it for that pain: your own source, your own report or your own hint. Check the result on three of your own documents. The link to the code and the checklist are in the description and on the site.
+
+---
+
 ## Video 5 — "LinkGuard: Claude wrote the code, but there are no sales"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
