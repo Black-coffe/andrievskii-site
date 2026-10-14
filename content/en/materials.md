@@ -9,7 +9,11 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 6 — "Your own program for your own pain: building with Claude what services don't have"
 
-Video 6 is not published yet, so here are only links. The video is about a method: how to bring a program for your own work pain to a working state together with Claude Code. Recall is the example of the result: an archive of calls with transcription on your own graphics card and search by meaning. The downsides are shown too: Claude labels the wrong speaker, transcription is worse on a weak graphics card, and a quote cannot be trusted without checking.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/naej9ZaDv_w" title="Your own program for your own pain: building with Claude what services don't have" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+The video is about a method: how to bring a program for your own work pain to a working state together with Claude Code. Recall is the example of the result: an archive of calls with transcription on your own graphics card and search by meaning. The downsides are shown too: Claude labels the wrong speaker, transcription is worse on a weak graphics card, and a quote cannot be trusted without checking.
 
 ### What to take
 

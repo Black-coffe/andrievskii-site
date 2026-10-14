@@ -9,7 +9,11 @@ description: "Чек-листи, шаблони, репозиторій — ус
 
 ## Ролик 6 — «Власна програма під свій біль: збираю з Claude те, чого немає в сервісах»
 
-Ролик 6 поки не опублікований, тому тут лише посилання. Ролик про метод: як довести до роботи програму під свій робочий біль разом із Claude Code. Прикладом результату є Recall, архів дзвінків із розшифровкою на своїй відеокарті та пошуком за змістом. Мінуси теж показано: Claude підписує не того спікера, на слабкій відеокарті розшифровка гірша, а на цитату без перевірки покладатися не можна.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/naej9ZaDv_w" title="Своя програма під свій біль: збираю з Claude те, чого нема в сервісах" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+Ролик про метод: як довести до роботи програму під свій робочий біль разом із Claude Code. Прикладом результату є Recall, архів дзвінків із розшифровкою на своїй відеокарті та пошуком за змістом. Мінуси теж показано: Claude підписує не того спікера, на слабкій відеокарті розшифровка гірша, а на цитату без перевірки покладатися не можна.
 
 ### Що забрати
 

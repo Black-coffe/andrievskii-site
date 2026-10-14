@@ -9,7 +9,11 @@ description: "Чек-листы, шаблоны, репозиторий — вс
 
 ## Ролик 6 — «Своя программа под свою боль: собираю с Claude то, чего нет в сервисах»
 
-Ролик 6 пока не опубликован, поэтому здесь только ссылки. Ролик про метод: как довести до работы программу под свою рабочую боль вместе с Claude Code. В качестве примера результата — Recall, архив звонков с расшифровкой на своей видеокарте и поиском по смыслу. Минусы тоже показаны: Claude подписывает не того спикера, на слабой видеокарте расшифровка хуже, а на цитату без проверки полагаться нельзя.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/naej9ZaDv_w" title="Своя программа под свою боль: собираю с Claude то, чего нет в сервисах" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+Ролик про метод: как довести до работы программу под свою рабочую боль вместе с Claude Code. В качестве примера результата — Recall, архив звонков с расшифровкой на своей видеокарте и поиском по смыслу. Минусы тоже показаны: Claude подписывает не того спикера, на слабой видеокарте расшифровка хуже, а на цитату без проверки полагаться нельзя.
 
 ### Что забрать
 
