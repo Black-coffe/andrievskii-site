@@ -7,6 +7,56 @@ description: "Чек-листы, шаблоны, репозиторий — вс
 
 Материалы — то, что выкладываю в описании к роликам на YouTube: чек-листы, шаблоны и код, которые можно забрать и использовать сразу.
 
+## Ролик 7 — «База знаний компании: 77 документов, 14 противоречий и 40 вопросов до и после»
+
+Ролик 7 пока не опубликован, поэтому здесь только ссылки. Ролик про порядок, а не про инструмент: как собрать базу знаний компании вместе с Claude Code. Показано на выдуманной компании Veltra Power: что выгружать, что модели не отдавать, как найти противоречия между документами и как проверить результат на 40 вопросах. Без MCP, выгрузкой в папку: 38 верных ответов из 40 вместо 30 и ноль выдумок. Минусы тоже показаны: скилл ошибается, поэтому каждую цитату проверяют руками, а два вопроса из 40 база так и не взяла.
+
+### Что забрать
+
+Комплект лежит в открытом репозитории [**Black-coffe/company-knowledge-kit**](https://github.com/Black-coffe/company-knowledge-kit): скилл поиска противоречий, правила старшинства документов, шаблон реестра, выдуманная компания из 77 документов, мини-набор из 13 файлов и 40 контрольных вопросов с ключом. Как запустить по шагам — в README комплекта. Все ссылки одним постом — в [Telegram-канале](https://t.me/andrievskii_ai).
+
+### Чек-лист из шести шагов
+
+1. **Выгрузить.** Папка документов лежит на диске, таблицы и PDF рядом в тексте.
+2. **Проверить выгрузку.** Найдены секреты, персональные данные и файлы, открытые не тем, кому надо.
+3. **Реестр.** На каждый документ строка с владельцем, датой и статусом.
+4. **Правила старшинства.** Подписанное старше рабочего; правила положены в `CLAUDE.md` базы.
+5. **Саммари и темы.** У каждого документа короткое саммари, вики собрана по темам.
+6. **Замер.** Контрольные вопросы с ключом, прогон до и после, столбец «помогло / нет».
+
+### Домашка
+
+Выгрузи одну свою папку документов. Запусти скилл поиска противоречий из комплекта. Проверь список: у каждой строки два файла и цитата. Нет своих документов — возьми выдуманную компанию из комплекта и прогони 40 вопросов; порог — 9 из 12 ловушек. Напиши в комментариях под роликом, сколько противоречий нашёл у себя.
+
+### Источники
+
+Прочитано 15.10.2026. ✅ — два независимых источника, ⚠️ — один источник, вендор о себе или препринт. В скобках — дата публикации.
+
+1. ✅ **И1. Поддержка клиентов, 2023.** +14 % решённых обращений в час, новичкам +34 %, около 5 тыс. операторов. Brynjolfsson, Li, Raymond, «Generative AI at Work»: [NBER w31161](https://www.nber.org/papers/w31161) (апр. 2023), [arXiv 2304.11771](https://arxiv.org/abs/2304.11771) (06.11.2024, там +15 %, другая версия), [NBER Digest](https://www.nber.org/digest/measuring-productivity-impact-generative-ai) (01.06.2023).
+2. ⚠️ **И2. Соцсеть, граф из тикетов.** Контролируемый эксперимент: медиана времени решения −28,6 %. Xu et al., SIGIR 2024: [arXiv 2404.17723](https://arxiv.org/abs/2404.17723) (26.04.2024).
+3. ✅ **И3. Семь точек отказа RAG.** Противоречия в контексте как причина ошибки. Barnett et al., CAIN 2024: [arXiv 2401.05856](https://arxiv.org/abs/2401.05856) (11.01.2024).
+4. ✅ **И4. Практик на Хабре, 2025.** На один вопрос может быть три ответа; сначала список вопросов, потом источники; тестовый набор после каждого изменения. «Как сделать RAG для своей компании»: [Хабр](https://habr.com/ru/articles/905076/) (28.04.2025).
+5. ✅ **И5. Хостинг-провайдер, 2026.** Три версии одного документа разных лет; права проверяет код по токену пользователя; ночная пересборка целиком. Рунити: [Хабр, часть 1](https://habr.com/ru/companies/runity/articles/1014712/) (25.03.2026), [часть 2](https://habr.com/ru/companies/runity/articles/1086162/) (24.09.2026).
+6. ✅ **И6. Телеком, 2025.** Противоречия «решены» промптом «не смешивать версии»; устаревшее помечается по хэшу. МТС Web Services, «RAG своими руками»: [Хабр](https://habr.com/ru/companies/ru_mts/articles/970476/) (16.12.2025).
+7. ✅ **И7. Промышленный софт, 2026.** Документация выше тикетов; персональные данные маскируются до индекса. Цифра, «Корпоративная память как инфраструктура»: [Хабр](https://habr.com/ru/companies/zyfra/articles/1007356/) (06.03.2026).
+8. ✅ **И8. Tech-маркетплейс, Genie.** Саммари, FAQ и ключевые слова на документ; таблицы из PDF перевели в текст; золотой набор вопросов от экспертов. Uber: [Genie](https://www.uber.com/blog/genie-ubers-gen-ai-on-call-copilot/) (10.10.2024), [Enhanced Agentic-RAG](https://www.uber.com/blog/enhanced-agentic-rag/) (29.05.2025).
+9. ⚠️ **И9. Сервис доставки.** Двухуровневая проверка ответа по статье базы; недостаточность базы — корневая причина плохих ответов. Пересказ поста DoorDash, оригинал 13.08.2024 недоступен: [ZenML LLMOps Database](https://www.zenml.io/llmops-database/rag-based-dasher-support-automation-with-llm-guardrails-and-quality-monitoring) (2024).
+10. ✅ **И10. Юридические системы, 17–33 %.** Ссылки мимо или ответ не подтверждён в 17–33 % у специализированных систем. Magesh et al.: [arXiv 2405.20362](https://arxiv.org/abs/2405.20362) (30.05.2024), [Stanford HAI](https://hai.stanford.edu/news/ai-trial-legal-models-hallucinate-1-out-6-or-more-benchmarking-queries) (23.05.2024).
+11. ✅ **И11. «Отвечают, а не воздерживаются».** При нехватке или споре данных модели чаще отвечают, чем воздерживаются. Joren et al., «Sufficient Context»: [arXiv 2411.06037](https://arxiv.org/abs/2411.06037) (09.11.2024), [Google Research](https://research.google/blog/deeper-insights-into-retrieval-augmented-generation-the-role-of-sufficient-context/) (14.05.2025), [Zhang, Wu, CMC 89(1)](https://www.techscience.com/cmc/online/detail/27766) (13.08.2026).
+12. ✅ **И12. Права и выгрузка.** Копия прав в индексе стареет; у выгрузки прав нет; утечка чувствительного через ассистента. [Azure AI Search, document-level access](https://learn.microsoft.com/en-us/azure/search/search-document-level-access-overview) (обновлено 17.09.2026), [AWS, secure multi-tenant RAG](https://aws.amazon.com/blogs/architecture/secure-multi-tenant-rag-with-amazon-bedrock-and-verified-permissions/) (22.06.2026), [OWASP LLM08:2025](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/), [OWASP LLM02:2025](https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/) (2025).
+13. ⚠️ **И13. Где нужен MCP.** Живой доступ нужен, когда источник живой, права идут по учётке и данные нельзя копировать; MCP действует с правами пользователя. Спецификация MCP 2025-11-25: [Authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization), [Security Best Practices](https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices). Документация вендоров о себе: [Notion MCP](https://www.notion.com/help/notion-mcp) (2026), [Asana MCP](https://developers.asana.com/docs/integrating-with-asanas-mcp-server) (08.10.2026), [Atlassian MCP, README](https://github.com/atlassian/atlassian-mcp-server) (без даты), [Copilot connectors](https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/overview) (12.10.2026), [Google Workspace MCP, пока preview](https://developers.google.com/workspace/guides/configure-mcp-servers) (13.10.2026).
+14. ⚠️ **И14. Стандарт поддержки KCS v6.** Качество базы — общая обязанность, старое помечают заменённым, набор живой. Consortium for Service Innovation, без даты: [Practices Guide, 030](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide/030/040/010), [050](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide/050).
+15. ⚠️ **И15. «Модель ведёт вики», 2026.** Идея апреля 2026, масштаб до сотен страниц. [Gist llm-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (04.04.2026), [VentureBeat](https://venturebeat.com/data/karpathy-shares-llm-knowledge-base-architecture-that-bypasses-rag-with-an) (03.04.2026).
+16. ✅ **И16. Прогноз аналитиков, 2024.** Не меньше 30 % пилотов GenAI бросят после проверки идеи. Gartner, релиз 29.07.2024: [Intelligent CIO](https://www.intelligentcio.com/eu/2024/08/05/gartner-predicts-30-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025/) (05.08.2024), [THE Journal](https://thejournal.com/Articles/2024/08/06/Gartner-30-of-Gen-AI-Projects-Will-Be-Abandoned.aspx) (06.08.2024).
+17. ✅ **И17. Бенчмарки с противоречиями.** Подложенные дубли и противоречия; конфликты — жёсткий барьер даже для моделей с рассуждением. [EnterpriseRAG-Bench, arXiv 2605.05253](https://arxiv.org/abs/2605.05253) (05.05.2026), [EnterpriseRAG, arXiv 2608.11584](https://arxiv.org/abs/2608.11584) (12.08.2026).
+18. ✅ **И18. Финтех, поддержка.** Чат-ассистент закрыл около двух третей обращений, через год компания вернула людей из-за качества. [The Decoder](https://the-decoder.com/klarna-says-openais-ai-agent-does-the-work-of-700-support-agents/) (27.02.2024), [CX Dive](https://www.customerexperiencedive.com/news/klarna-reinvests-human-talent-customer-service-ai-chatbot/747586/) (09.05.2025).
+19. ⚠️ **И19. Препринт, 2026.** При долгом делегировании модели портят около четверти содержимого. Laban, Schnabel, Neville: [arXiv 2604.15597](https://arxiv.org/abs/2604.15597) (17.04.2026).
+20. ✅ **И20. Судья-модель любит ответ, который стоит первым.** Shi et al., «Judging the Judges»: [arXiv 2406.07791](https://arxiv.org/abs/2406.07791) (12.06.2024).
+
+Компания, документы и вопросы в демо выдуманы. Замер: claude-sonnet-5-5, 15.10.2026, 40 вопросов, медиана трёх прогонов.
+
+---
+
 ## Ролик 6 — «Своя программа под свою боль: собираю с Claude то, чего нет в сервисах»
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">

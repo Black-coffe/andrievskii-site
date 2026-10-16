@@ -7,6 +7,56 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 7 — "Company knowledge base: 77 documents, 14 contradictions and 40 questions before and after"
+
+Video 7 is not published yet, so here are only links. The video is about an order of steps, not a tool: how to build a company knowledge base together with Claude Code. It is shown on a made-up company, Veltra Power: what to export, what not to give the model, how to find contradictions between documents and how to check the result on 40 questions. No MCP, just an export into a folder: 38 correct answers out of 40 instead of 30, and zero made-up answers. The downsides are shown too: the skill makes mistakes, so every quote is checked by hand, and two of the 40 questions the base never got right.
+
+### What to take
+
+The kit sits in the open repository [**Black-coffe/company-knowledge-kit**](https://github.com/Black-coffe/company-knowledge-kit): a skill that finds contradictions, document precedence rules, an inventory template, a made-up company of 77 documents, a mini set of 13 files and 40 control questions with an answer key. How to run it step by step is in the kit's README. All links in one post are in the [Telegram channel](https://t.me/andrievskii_ai).
+
+### Checklist of six steps
+
+1. **Export.** The document folder is on disk, spreadsheets and PDFs have a text version next to them.
+2. **Check the export.** Secrets, personal data and files open to the wrong people are found.
+3. **Inventory.** One row per document with its owner, date and status.
+4. **Precedence rules.** Signed beats working; the rules sit in the base's `CLAUDE.md`.
+5. **Summaries and topics.** Every document has a short summary, the wiki is built by topic.
+6. **Measurement.** Control questions with a key, a run before and after, a "helped / did not" column.
+
+### Homework
+
+Export one folder of your own documents. Run the contradiction-finding skill from the kit. Check the list: every row must have two files and a quote. No documents of your own? Take the made-up company from the kit and run the 40 questions; the bar is 9 of 12 traps. Write in the comments under the video how many contradictions you found.
+
+### Sources
+
+Read on 15.10.2026. ✅ — two independent sources, ⚠️ — one source, a vendor about itself or a preprint. Publication date in brackets.
+
+1. ✅ **S1. Customer support, 2023.** +14 % issues resolved per hour, +34 % for novices, about 5,000 agents. Brynjolfsson, Li, Raymond, "Generative AI at Work": [NBER w31161](https://www.nber.org/papers/w31161) (Apr 2023), [arXiv 2304.11771](https://arxiv.org/abs/2304.11771) (06.11.2024, +15 % there, a different version), [NBER Digest](https://www.nber.org/digest/measuring-productivity-impact-generative-ai) (01.06.2023).
+2. ⚠️ **S2. Social network, a graph from tickets.** A controlled experiment: median resolution time −28.6 %. Xu et al., SIGIR 2024: [arXiv 2404.17723](https://arxiv.org/abs/2404.17723) (26.04.2024).
+3. ✅ **S3. Seven failure points of RAG.** Contradictions in the context as a cause of errors. Barnett et al., CAIN 2024: [arXiv 2401.05856](https://arxiv.org/abs/2401.05856) (11.01.2024).
+4. ✅ **S4. A practitioner on Habr, 2025.** One question can have three answers; first the list of questions, then the sources; a test set after every change. Article in Russian: [Habr](https://habr.com/ru/articles/905076/) (28.04.2025).
+5. ✅ **S5. Hosting provider, 2026.** Three versions of one document from different years; access is checked by code with the user's token; a full nightly rebuild. Runity, in Russian: [Habr, part 1](https://habr.com/ru/companies/runity/articles/1014712/) (25.03.2026), [part 2](https://habr.com/ru/companies/runity/articles/1086162/) (24.09.2026).
+6. ✅ **S6. Telecom, 2025.** Contradictions "solved" with a "do not mix versions" prompt; outdated content is marked by hash. MTS Web Services, in Russian: [Habr](https://habr.com/ru/companies/ru_mts/articles/970476/) (16.12.2025).
+7. ✅ **S7. Industrial software, 2026.** Documentation ranks above tickets; personal data is masked before indexing. Zyfra, in Russian: [Habr](https://habr.com/ru/companies/zyfra/articles/1007356/) (06.03.2026).
+8. ✅ **S8. Tech marketplace, Genie.** A summary, FAQ and keywords per document; tables from PDFs converted to text; a golden question set from experts. Uber: [Genie](https://www.uber.com/blog/genie-ubers-gen-ai-on-call-copilot/) (10.10.2024), [Enhanced Agentic-RAG](https://www.uber.com/blog/enhanced-agentic-rag/) (29.05.2025).
+9. ⚠️ **S9. Delivery service.** A two-level check of the answer against the knowledge-base article; an insufficient base is the root cause of bad answers. A retelling of a DoorDash post, the original of 13.08.2024 is unavailable: [ZenML LLMOps Database](https://www.zenml.io/llmops-database/rag-based-dasher-support-automation-with-llm-guardrails-and-quality-monitoring) (2024).
+10. ✅ **S10. Legal systems, 17–33 %.** Wrong citations or unsupported answers in 17–33 % of cases for specialised systems. Magesh et al.: [arXiv 2405.20362](https://arxiv.org/abs/2405.20362) (30.05.2024), [Stanford HAI](https://hai.stanford.edu/news/ai-trial-legal-models-hallucinate-1-out-6-or-more-benchmarking-queries) (23.05.2024).
+11. ✅ **S11. "They answer rather than abstain".** When data is missing or conflicting, models answer more often than they abstain. Joren et al., "Sufficient Context": [arXiv 2411.06037](https://arxiv.org/abs/2411.06037) (09.11.2024), [Google Research](https://research.google/blog/deeper-insights-into-retrieval-augmented-generation-the-role-of-sufficient-context/) (14.05.2025), [Zhang, Wu, CMC 89(1)](https://www.techscience.com/cmc/online/detail/27766) (13.08.2026).
+12. ✅ **S12. Permissions and the export.** A copy of permissions in the index goes stale; an export has no permissions; sensitive data leaks through the assistant. [Azure AI Search, document-level access](https://learn.microsoft.com/en-us/azure/search/search-document-level-access-overview) (updated 17.09.2026), [AWS, secure multi-tenant RAG](https://aws.amazon.com/blogs/architecture/secure-multi-tenant-rag-with-amazon-bedrock-and-verified-permissions/) (22.06.2026), [OWASP LLM08:2025](https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/), [OWASP LLM02:2025](https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/) (2025).
+13. ⚠️ **S13. Where MCP is needed.** Live access is needed when the source is live, permissions follow the account and the data must not be copied; MCP acts with the user's permissions. MCP specification 2025-11-25: [Authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization), [Security Best Practices](https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices). Vendors' own documentation: [Notion MCP](https://www.notion.com/help/notion-mcp) (2026), [Asana MCP](https://developers.asana.com/docs/integrating-with-asanas-mcp-server) (08.10.2026), [Atlassian MCP, README](https://github.com/atlassian/atlassian-mcp-server) (no date), [Copilot connectors](https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/overview) (12.10.2026), [Google Workspace MCP, still preview](https://developers.google.com/workspace/guides/configure-mcp-servers) (13.10.2026).
+14. ⚠️ **S14. The KCS v6 support standard.** Knowledge quality is everyone's duty, old content is marked as replaced, the set is alive. Consortium for Service Innovation, no date: [Practices Guide, 030](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide/030/040/010), [050](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide/050).
+15. ⚠️ **S15. "The model maintains the wiki", 2026.** An idea from April 2026, at a scale of up to hundreds of pages. [Gist llm-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (04.04.2026), [VentureBeat](https://venturebeat.com/data/karpathy-shares-llm-knowledge-base-architecture-that-bypasses-rag-with-an) (03.04.2026).
+16. ✅ **S16. Analyst forecast, 2024.** At least 30 % of GenAI pilots will be abandoned after proof of concept. Gartner, release of 29.07.2024: [Intelligent CIO](https://www.intelligentcio.com/eu/2024/08/05/gartner-predicts-30-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025/) (05.08.2024), [THE Journal](https://thejournal.com/Articles/2024/08/06/Gartner-30-of-Gen-AI-Projects-Will-Be-Abandoned.aspx) (06.08.2024).
+17. ✅ **S17. Benchmarks with contradictions.** Planted duplicates and contradictions; conflicts are a hard barrier even for reasoning models. [EnterpriseRAG-Bench, arXiv 2605.05253](https://arxiv.org/abs/2605.05253) (05.05.2026), [EnterpriseRAG, arXiv 2608.11584](https://arxiv.org/abs/2608.11584) (12.08.2026).
+18. ✅ **S18. Fintech, customer support.** A chat assistant handled about two thirds of requests; a year later the company brought people back because of quality. [The Decoder](https://the-decoder.com/klarna-says-openais-ai-agent-does-the-work-of-700-support-agents/) (27.02.2024), [CX Dive](https://www.customerexperiencedive.com/news/klarna-reinvests-human-talent-customer-service-ai-chatbot/747586/) (09.05.2025).
+19. ⚠️ **S19. Preprint, 2026.** Under long delegation, models corrupt about a quarter of the content. Laban, Schnabel, Neville: [arXiv 2604.15597](https://arxiv.org/abs/2604.15597) (17.04.2026).
+20. ✅ **S20. A judge model favours the answer that comes first.** Shi et al., "Judging the Judges": [arXiv 2406.07791](https://arxiv.org/abs/2406.07791) (12.06.2024).
+
+The company, documents and questions in the demo are made up. Measurement: claude-sonnet-5-5, 15.10.2026, 40 questions, median of three runs.
+
+---
+
 ## Video 6 — "Your own program for your own pain: building with Claude what services don't have"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
