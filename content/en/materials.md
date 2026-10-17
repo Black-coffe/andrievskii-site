@@ -9,7 +9,11 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 7 — "Company knowledge base: 77 documents, 14 contradictions and 40 questions before and after"
 
-Video 7 is not published yet, so here are only links. The video is about an order of steps, not a tool: how to build a company knowledge base together with Claude Code. It is shown on a made-up company, Veltra Power: what to export, what not to give the model, how to find contradictions between documents and how to check the result on 40 questions. No MCP, just an export into a folder: 38 correct answers out of 40 instead of 30, and zero made-up answers. The downsides are shown too: the skill makes mistakes, so every quote is checked by hand, and two of the 40 questions the base never got right.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/bi_R5IPNbLo" title="Company knowledge base: 77 documents, 14 contradictions and 40 questions before and after" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+The video is about an order of steps, not a tool: how to build a company knowledge base together with Claude Code. It is shown on a made-up company, Veltra Power: what to export, what not to give the model, how to find contradictions between documents and how to check the result on 40 questions. No MCP, just an export into a folder: 38 correct answers out of 40 instead of 30, and zero made-up answers. The downsides are shown too: the skill makes mistakes, so every quote is checked by hand, and two of the 40 questions the base never got right.
 
 ### What to take
 
