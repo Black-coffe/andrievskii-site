@@ -9,7 +9,11 @@ Materials are what I publish in the description of my YouTube videos: checklists
 
 ## Video 8 — "Claude Code on a team: what goes in CLAUDE.md and what goes in a gate"
 
-Video 8 is not published yet, so only links are here. There are three of us, three machines, each with their own Claude Code, and together we build a live product. The video walks through four cases where we got out of sync, and every time it went the same way: there was no rule, something broke, we wrote the rule down. The main idea: some agreements hold as words in a shared file, and others have to go into a gate, because words don't hold. The cases are recreated on a training project with three working copies and a study group with a tracker bot.
+<div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
+<iframe src="https://www.youtube-nocookie.com/embed/mjXfoPfIxIA" title="Claude Code on a team: what goes in CLAUDE.md and what goes in a gate" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+There are three of us, three machines, each with their own Claude Code, and together we build a live product. The video walks through four cases where we got out of sync, and every time it went the same way: there was no rule, something broke, we wrote the rule down. The main idea: some agreements hold as words in a shared file, and others have to go into a gate, because words don't hold. The cases are recreated on a training project with three working copies and a study group with a tracker bot.
 
 ### What to take
 
