@@ -7,6 +7,33 @@ description: "Checklists, templates, a repository — everything published along
 
 Materials are what I publish in the description of my YouTube videos: checklists, templates and code you can take and use right away.
 
+## Video 8 — "Claude Code on a team: what goes in CLAUDE.md and what goes in a gate"
+
+Video 8 is not published yet, so only links are here. There are three of us, three machines, each with their own Claude Code, and together we build a live product. The video walks through four cases where we got out of sync, and every time it went the same way: there was no rule, something broke, we wrote the rule down. The main idea: some agreements hold as words in a shared file, and others have to go into a gate, because words don't hold. The cases are recreated on a training project with three working copies and a study group with a tracker bot.
+
+### What to take
+
+The kit is in the public repository [**Black-coffe/team-agreements-kit**](https://github.com/Black-coffe/team-agreements-kit): a team `CLAUDE.md`, conventions, a review checklist for PRs written by an agent, and deny settings for the agent (`.env`, generated files, pushing to `main`, deploys). How to fill it in and check it step by step is in the kit's README. Tested on Windows, not on Mac. All links in one post are in the [Telegram channel](https://t.me/andrievskii_ai).
+
+### Four cases and what holds the rule
+
+| Case | Rule | Held by |
+|---|---|---|
+| A generated task board conflicted on almost every PR, 5 times in one session | Generated files don't live in git and aren't edited by hand | a gate |
+| Three direct pushes to `main` in a day, the staging server didn't update | Into `main` only through a PR | a gate |
+| A regeneration would have wiped 244 hand-written lines | The generator only appends | the generator's code |
+| One bug fixed two different ways | Zones with owners, you don't edit someone else's zone yourself | a gate (CODEOWNERS) |
+
+### Homework
+
+Write an agreements file for your team (or for your future self): stack, style, what must not be generated without review, who owns which parts. Lay out the kit's templates, start Claude Code, and it will ask questions one at a time and fill in the templates. Then check that the gate holds: ask the agent to read a decoy key from `.env`, it must not see it. Tell us in the comments under the video what your team agreed on.
+
+### Sources
+
+Our team's working chat (805 messages, 15.06–21.10.2026) and 13 calls. Quotes are paraphrased, colleagues by role, no names. Every number from the video with its source is in the kit's [`facts.md`](https://github.com/Black-coffe/team-agreements-kit/blob/main/facts.md). The training project, its group and the bot are made up; data on screen is labelled "example".
+
+---
+
 ## Video 7 — "Company knowledge base: 77 documents, 14 contradictions and 40 questions before and after"
 
 <div style="position:relative;padding-top:56.25%;margin:1.4em 0;background:var(--color-sunk);border:1px solid var(--color-line-soft);border-radius:2px">
